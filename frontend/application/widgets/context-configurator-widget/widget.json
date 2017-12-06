@@ -1,0 +1,45 @@
+{
+   "name": "context-configurator-widget",
+   "description": "",
+   "styleSource": "scss/context-configurator-widget.scss",
+
+
+   "controls": [ "properties-editor-control" ],
+
+   "integration": {
+      "technology": "vue",
+      "type": "widget"
+   },
+
+   "features": {
+      "$schema": "http://json-schema.org/draft-04/schema#",
+      "type": "object",
+      "properties": {
+
+         "entry": {
+            "type": "object",
+            "required": [ "resource" ],
+            "properties": {
+               "resource": {
+                  "type": "string",
+                  "format": "topic",
+                  "axRole": "inlet"
+               }
+            }
+         },
+
+         "context": {
+            "type": "object",
+            "required": [ "parameter" ],
+            "properties": {
+               "parameter": {
+                  "type": "string",
+                  "format": "topic",
+                  "axRole": "outlet"
+               }
+            }
+         }
+
+      }
+   }
+}

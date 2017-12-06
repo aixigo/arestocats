@@ -1,0 +1,204 @@
+/**
+* Copyright 2017 aixigo AG
+*/
+@charset "UTF-8";
+@import 'font-awesome/scss/variables';
+@import 'laxar-cube.theme/scss/variables_all';
+
+// Tooltip: styles should be moved to a control if tooltip is used more than once:
+$tooltip-background-color: #222;
+@import 'vue-directive-tooltip/src/css/index';
+
+$itemBg: white;
+$itemFg: #555;
+$softColor: #999;
+
+// These should be in-sync with the item-status-control
+$itemHeight: 32px;
+$itemStatusDetailsWidth: 48px;
+$focusFg: $brand-primary;
+$busyBg: #ddd;
+$highlightColor: #fafaba;
+
+$sb-busy-gradient: linear-gradient(
+   -45deg,
+   $busyBg 25%,
+   transparent 25%,
+   transparent 50%,
+   $busyBg 50%,
+   $busyBg 75%,
+   transparent 75%,
+   transparent
+);
+
+@keyframes sb-busy-stripes {
+   from { background-position: 0 0; }
+   to { background-position: 12px 0; }
+}
+
+.scenario-browser-item-control {
+
+   // indent nested items
+   .scenario-browser-item-control {
+      margin-left: $itemHeight;
+   }
+
+   // Status effects:
+   .sb-item-details {
+      padding: 0;
+      height: $itemHeight;
+
+      .sb-item-status-details {
+         font-size: 80%;
+      }
+
+      .sb-item-description {
+         transform: translateX( -$itemStatusDetailsWidth );
+         transition: transform 0.5s;
+         background: $itemBg;
+         cursor: pointer;
+         font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+         height: $itemHeight;
+         line-height: $itemHeight;
+         padding-left: 8px;
+         white-space: nowrap;
+         text-overflow: ellipsis;
+         overflow: hidden;
+         position: relative;
+
+         &:hover
+         &:hover .sb-item-type, {
+            background: $highlightColor;
+         }
+      }
+
+      &.sb-result-available > .sb-item-description {
+         transform: translateX( 0 );
+      }
+
+      &.sb-role-prepare > .sb-item-description,
+      &.sb-role-cleanup > .sb-item-description {
+         &::before {
+            padding: 0;
+            text-align: center;
+            width: $itemHeight/2;
+            font-weight: bold;
+            font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+            color: #777;
+            display: inline-block;
+            position: relative;
+            cursor: default;
+            height: $itemHeight/2;
+            top: -10px;
+            left: -4px;
+         }
+      }
+      &.sb-role-prepare > .sb-item-description {
+         &::before {
+            content: "P";
+         }
+      }
+      &.sb-role-cleanup > .sb-item-description {
+         &::before {
+            content: "C";
+         }
+      }
+
+      .meter {
+         position: relative;
+         height: 3px;
+         margin-left: -8px;
+         top: -($itemHeight + 11px);
+         box-sizing: content-box;
+         transition: width 300ms ease-in-out;
+
+         // width: calc( 100% + 8px )!important;
+         &.empty {
+            width: 0;
+         }
+         &.full {
+            width: calc( 100% + 8px );
+         }
+      }
+
+      .meter {
+         background: $brand-success;
+         box-shadow: 0 0 3px 1px $brand-success;
+      }
+      &.sb-outcome-error .meter {
+         background: $brand-danger;
+         box-shadow: 0 0 3px 1px $brand-danger;
+      }
+      &.sb-outcome-failure .meter {
+         background: $brand-warning;
+         box-shadow: 0 0 3px 1px $brand-warning;
+      }
+
+      .sb-item-description-text {
+         width: calc(100% - 64px);
+         height: $itemHeight;
+         line-height: $itemHeight;
+
+         display: inline-block;
+         overflow: hidden;
+         text-overflow: ellipsis;
+         white-space: nowrap;
+
+         &[role=button] {
+            outline: none!important;
+            &:focus, &:hover {
+               color: $focusFg;
+               small {
+                  color: $focusFg;
+               }
+            }
+         }
+      }
+
+      .sb-item-type {
+         font-size: 11px;
+         height: $itemHeight;
+         line-height: $itemHeight;
+         text-transform: uppercase;
+         color: $softColor;
+         text-align: right;
+         position: absolute;
+         top: 0;
+         right: 5px;
+         z-index: 1;
+      }
+
+      small {
+         font-style: italic;
+         color: $softColor;
+      }
+
+      &.sb-highlight {
+         > .sb-item-description {
+            background: $highlightColor;
+         }
+      }
+
+      &.sb-busy:not(.sb-progress) {
+         > .sb-item-description {
+            background-image: $sb-busy-gradient;
+            background-size: 12px 12px;
+            animation-name: sb-busy-stripes;
+            animation-duration: 0.5s;
+            animation-iteration-count: infinite;
+            animation-timing-function: linear;
+         }
+      }
+   }
+
+   .sb-item-children {
+      margin-left: 0rem;
+      padding-left: 0.2rem;
+
+      > li {
+         list-style-type: none;
+         margin-left: 0;
+         padding-left: 0.1rem;
+      }
+   }
+}

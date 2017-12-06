@@ -1,0 +1,7 @@
+{
+   "name": "collapse-icon-control",
+   "styleSource": "scss/collapse-icon-control.scss",
+   "integration": {
+      "technology": "vue"
+   }
+}

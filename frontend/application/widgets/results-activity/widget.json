@@ -1,0 +1,65 @@
+{
+   "name": "results-activity",
+   "description": "streams results for a given job",
+
+   "integration": {
+      "technology": "plain",
+      "type": "activity"
+   },
+
+   "features": {
+      "$schema": "http://json-schema.org/draft-04/schema#",
+      "type": "object",
+      "properties": {
+
+         "job": {
+            "type": "object",
+            "required": [ "resource" ],
+            "properties": {
+               "resource": {
+                  "type": "string",
+                  "format": "topic",
+                  "axRole": "inlet"
+               }
+            }
+         },
+
+         "results": {
+            "type": "object",
+            "required": [ "resource" ],
+            "properties": {
+               "resource": {
+                  "type": "string",
+                  "format": "topic",
+                  "axRole": "outlet"
+               }
+            }
+         },
+
+         "progress": {
+            "type": "object",
+            "required": [ "resource" ],
+            "properties": {
+               "resource": {
+                  "type": "string",
+                  "format": "topic",
+                  "axRole": "outlet"
+               }
+            }
+         },
+
+         "finish": {
+            "type": "object",
+            "properties": {
+               "action": {
+                  "description": "notifies interested parties about result completion",
+                  "type": "string",
+                  "format": "topic",
+                  "axRole": "outlet"
+               }
+            }
+         }
+
+      }
+   }
+}

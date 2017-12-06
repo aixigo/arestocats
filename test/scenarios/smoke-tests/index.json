@@ -1,0 +1,26 @@
+{
+   "type": "suite",
+   "description": "basic smoke-tests",
+   "items": [
+      {
+         "type": "include",
+         "src": "api-get"
+      },
+      {
+         "type": "include",
+         "src": "./meant-to-fail"
+      },
+      {
+         "type": "include",
+         "src": "./meant-to-error"
+      },
+      {
+         "type": "delay",
+         "milliseconds": 1500
+      },
+      {
+         "type": "include",
+         "src": "./mqtt"
+      }
+   ]
+}

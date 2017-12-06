@@ -1,0 +1,19 @@
+{
+   "places": {
+
+      "entry": {
+         "patterns": [ "/" ],
+         "redirectTo": "runner"
+      },
+
+      "runner": {
+         "patterns": [ "/run" ],
+         "page": "runner"
+      },
+
+      "viewer": {
+         "patterns": [ "/view" ],
+         "page": "viewer"
+      }
+   }
+}

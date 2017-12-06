@@ -1,0 +1,7 @@
+{
+   "extends": "laxarjs",
+   "plugins": [ "html", "vue" ],
+   "rules": {
+      "no-shadow": "warn"
+   }
+}

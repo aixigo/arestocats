@@ -1,0 +1,7 @@
+{
+   "name": "item-status-control",
+   "styleSource": "scss/item-status-control.scss",
+   "integration": {
+      "technology": "vue"
+   }
+}

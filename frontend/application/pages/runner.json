@@ -1,0 +1,174 @@
+{
+   "layout": "app",
+
+   "areas": {
+
+      "axActivities": [
+         {
+            "widget": "entry-activity",
+            "features": {
+               "entry": {
+                  "resource": "entry"
+               }
+            }
+         },
+         {
+            "widget": "current-job-activity",
+            "features": {
+               "entry": {
+                  "resource": "entry"
+               },
+               "job": {
+                  "resource": "latestJob"
+               },
+               "refresh": {
+                  "resource": "runnerJob",
+                  "onActions": [ "cancelCurrentJob", "runWithOverrides", "finishJob" ],
+                  "interval": 10000
+               }
+            }
+         },
+         {
+            "widget": "scenario-listing-activity",
+            "features": {
+               "entry": {
+                  "resource": "entry"
+               },
+               "scenarios": {
+                  "resource": "scenarios"
+               },
+               "context": {
+                  "parameter": "context"
+               }
+            }
+         },
+         {
+            "widget": "scenario-runner-activity",
+            "features": {
+               "entry": {
+                  "resource": "entry"
+               },
+               "job": {
+                  "resource": "runnerJob"
+               },
+               "run": {
+                  "onActions": [ "runWithOverrides" ]
+               },
+               "cancel": {
+                  "onActions": [ "cancelCurrentJob" ]
+               }
+            }
+         },
+         {
+            "widget": "results-activity",
+            "features": {
+               "job": {
+                  "resource": "runnerJob"
+               },
+               "progress": {
+                  "resource": "latestProgress"
+               },
+               "results": {
+                  "resource": "latestResults"
+               },
+               "finish": {
+                  "action": "finishJob"
+               }
+            }
+         }
+      ],
+
+      "header": [
+         {
+            "widget": "version-information-widget",
+            "features": {
+               "entry": {
+                  "resource": "entry"
+               }
+            }
+         }
+      ],
+
+      "nav": [
+         {
+            "widget": "navigation-widget",
+            "features": {
+               "job": {
+                  "resource": "latestJob"
+               }
+            }
+         }
+      ],
+
+      "left": [
+         {
+            "widget": "context-configurator-widget",
+            "features": {
+               "entry": {
+                  "resource": "entry"
+               },
+               "context": {
+                  "parameter": "context"
+               }
+            }
+         },
+         {
+            "widget": "scenario-browser-widget",
+            "features": {
+               "activation": {
+                  "enabled": true,
+                  "action": "runScenario",
+                  "onActions": [ "requestActivation" ]
+               },
+               "cancel": {
+                  "action": "cancelCurrentJob"
+               },
+               "job": {
+                  "resource": "latestJob"
+               },
+               "latestProgress": {
+                  "resource": "latestProgress"
+               },
+               "latestResults": {
+                  "resource": "latestResults"
+               },
+               "scenarios": {
+                  "resource": "scenarios"
+               },
+               "selection": {
+                  "resource": "selectedItem"
+               },
+               "selectionResult": {
+                  "resource": "selectedItemResult"
+               }
+            }
+         }
+      ],
+
+      "right": [
+         {
+            "widget": "item-inspector-widget",
+            "features": {
+               "item": {
+                  "resource": "selectedItem"
+               },
+               "result": {
+                  "resource": "selectedItemResult"
+               },
+               "run": {
+                  "onActions": [ "runScenario" ],
+                  "action": "runWithOverrides"
+               },
+               "activation": {
+                  "action": "requestActivation",
+                  "enabled": true
+               },
+               "overrides": {
+                  "enabled": true
+               }
+            }
+         }
+      ]
+
+   }
+}

@@ -1,0 +1,133 @@
+/**
+ * Copyright 2017 aixigo AG
+ * Released under the MIT license.
+ * https://github.com/aixigo/arestocats/blob/master/LICENSE
+ */
+
+@charset "UTF-8";
+@import 'font-awesome/scss/variables';
+@import 'laxar-cube.theme/scss/variables_all';
+
+$regularBg: $brand-primary;
+$regularFg: white;
+
+// This should be in-sync with the scenario-browser-widget:
+$itemHeight: 32px;
+$itemStatusDetailsWidth: 48px;
+$busyBg: #ddd;
+$focusFg: $brand-primary;
+
+$successFg: white;
+$successBg: $brand-success;
+
+$skipBg: $brand-info;
+$skipFg: white;
+
+$failureBg: $brand-warning;
+$failureFg: white;
+
+$errorBg: $brand-danger;
+$errorFg: white;
+
+
+.item-status-control {
+
+   &.item-status-control-compact {
+      width: $itemHeight + $itemStatusDetailsWidth;
+   }
+
+   padding: $itemHeight/4;
+   height: $itemHeight;
+   font-size: $itemHeight/2;
+   line-height: $itemHeight/2;
+   color: $regularFg;
+   background: $regularBg;
+   white-space: nowrap;
+   text-overflow: ellipsis;
+   overflow: hidden;
+
+   &[role=button] {
+      outline: none!important;
+      &:focus {
+         box-shadow: inset 1px 1px 3px $focusFg;
+      }
+   }
+
+   &.item-status-outcome-unknown.item-status-activation-enabled {
+      i::before {
+         content: $fa-var-play-circle;
+      }
+   }
+
+   &.item-status-busy {
+      background: $busyBg;
+      &.item-status-progress {
+         background: $successBg;
+      }
+      i {
+         animation-name: app-busy-spinner;
+         animation-duration: 0.5s;
+         animation-iteration-count: infinite;
+         animation-timing-function: linear;
+      }
+      i::before {
+         content: $fa-var-spinner
+      }
+   }
+
+   &.item-status-stale {
+      opacity: 0.5;
+   }
+
+   &.item-status-outcome-success {
+      background: $successBg;
+      color: $successFg;
+      i::before {
+         content: $fa-var-check-circle;
+      }
+   }
+
+   &.item-status-outcome-skipped {
+      background: $skipBg;
+      color: $skipFg;
+      i::before {
+         content: $fa-var-bolt;
+      }
+   }
+
+   &.item-status-outcome-failure {
+      background: $failureBg;
+      color: $failureFg;
+      i::before {
+         content: $fa-var-exclamation-triangle;
+      }
+   }
+
+   &.item-status-outcome-error {
+      background: $errorBg;
+      color: $errorFg;
+      i::before {
+         content: $fa-var-exclamation-circle;
+      }
+   }
+
+   &.item-status-activation-enabled:hover {
+      i::before {
+         content: $fa-var-play-circle;
+      }
+   }
+
+   @keyframes status-item-busy-spinner {
+      from {
+         transform: rotateZ(0deg)
+      }
+      to {
+         transform: rotateZ(360deg)
+      }
+   }
+
+   .item-status-details {
+      font-size: 80%;
+   }
+
+}

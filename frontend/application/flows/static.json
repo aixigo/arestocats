@@ -1,0 +1,15 @@
+{
+   "places": {
+
+      "entry": {
+         "patterns": [ "/" ],
+         "redirectTo": "static"
+      },
+
+      "static": {
+         "patterns": [ "/static" ],
+         "page": "static"
+      }
+
+   }
+}

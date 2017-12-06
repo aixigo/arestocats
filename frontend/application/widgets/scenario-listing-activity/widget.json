@@ -1,0 +1,53 @@
+{
+   "name": "scenario-listing-activity",
+   "description": "provides access to available pre-defined scenarios",
+
+   "integration": {
+      "technology": "plain",
+      "type": "activity"
+   },
+
+   "features": {
+      "$schema": "http://json-schema.org/draft-04/schema#",
+      "type": "object",
+      "properties": {
+
+         "entry": {
+            "type": "object",
+            "required": [ "resource" ],
+            "properties": {
+               "resource": {
+                  "type": "string",
+                  "format": "topic",
+                  "axRole": "inlet"
+               }
+            }
+         },
+
+         "context": {
+            "type": "object",
+            "properties": {
+               "parameter": {
+                  "type": [ "null", "string" ],
+                  "default": null,
+                  "format": "topic",
+                  "axRole": "inlet"
+               }
+            }
+         },
+
+         "scenarios": {
+            "type": "object",
+            "required": [ "resource" ],
+            "properties": {
+               "resource": {
+                  "type": "string",
+                  "format": "topic",
+                  "axRole": "outlet"
+               }
+            }
+         }
+
+      }
+   }
+}

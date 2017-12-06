@@ -1,0 +1,30 @@
+{
+   "name": "version-information-widget",
+   "description": "",
+   "styleSource": "scss/version-information-widget.scss",
+
+   "integration": {
+      "technology": "vue",
+      "type": "widget"
+   },
+
+   "features": {
+      "$schema": "http://json-schema.org/draft-04/schema#",
+      "type": "object",
+      "properties": {
+
+         "entry": {
+            "type": "object",
+            "required": [ "resource" ],
+            "properties": {
+               "resource": {
+                  "type": "string",
+                  "format": "topic",
+                  "axRole": "inlet"
+               }
+            }
+         }
+
+      }
+   }
+}

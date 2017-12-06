@@ -1,0 +1,105 @@
+{
+   "name": "item-inspector-widget",
+   "description": "display details on selected test items",
+   "styleSource": "scss/item-inspector-widget.scss",
+
+   "controls": [
+      "properties-editor-control",
+      "item-status-control",
+      "collapse-icon-control"
+   ],
+
+   "integration": {
+      "technology": "vue",
+      "type": "widget"
+   },
+
+   "features": {
+      "$schema": "http://json-schema.org/draft-04/schema#",
+      "type": "object",
+      "properties": {
+
+         "item": {
+            "type": "object",
+            "required": [ "resource" ],
+            "properties": {
+               "resource": {
+                  "type": "string",
+                  "format": "topic",
+                  "axRole": "inlet"
+               }
+            }
+         },
+
+         "run": {
+            "type": "object",
+            "required": [ "action" ],
+            "properties": {
+               "onActions": {
+                  "description": "apply item overrides to run-requests that were intercepted on this topic",
+                  "type": "array",
+                  "items": {
+                     "type": "string",
+                     "format": "topic",
+                     "axRole": "inlet"
+                  }
+               },
+               "action": {
+                  "description": "publish the run-action with any overrides applied on this topic",
+                  "type": "string",
+                  "format": "topic",
+                  "axRole": "outlet"
+               }
+            }
+         },
+
+         "activation": {
+            "type": "object",
+            "required": [ "action" ],
+            "properties": {
+               "enabled": {
+                  "description": "allow for scenario activation",
+                  "type": "boolean",
+                  "default": true
+               },
+               "action": {
+                  "description": "request full-tree activation of a given item",
+                  "type": "string",
+                  "format": "topic",
+                  "axRole": "outlet"
+               }
+            }
+         },
+
+         "result": {
+            "type": "object",
+            "required": [ "resource" ],
+            "properties": {
+               "resource": {
+                  "type": "string",
+                  "format": "topic",
+                  "axRole": "inlet"
+               }
+            }
+         },
+
+         "overrides": {
+            "type": "object",
+            "properties": {
+               "enabled": {
+                  "description": "allow to override item configuration",
+                  "type": "boolean",
+                  "default": true
+               },
+               "parameter": {
+                  "default": "item-inspector-overrides",
+                  "type": "string",
+                  "format": "topic",
+                  "axRole": "outlet"
+               }
+            }
+         }
+
+      }
+   }
+}

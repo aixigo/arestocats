@@ -1,0 +1,145 @@
+{
+   "layout": "app",
+
+   "areas": {
+
+      "axActivities": [
+         {
+            "widget": "entry-activity",
+            "features": {
+               "entry": {
+                  "resource": "entry"
+               }
+            }
+         },
+         {
+            "widget": "current-job-activity",
+            "features": {
+               "entry": {
+                  "resource": "entry"
+               },
+               "items": {
+                  "resource": "items"
+               },
+               "job": {
+                  "resource": "currentJob"
+               },
+               "refresh": {
+                  "onActions": [ "finishJob" ]
+               }
+            }
+         },
+         {
+            "widget": "scenario-runner-activity",
+            "features": {
+               "entry": {
+                  "resource": "entry"
+               },
+               "job": {
+                  "resource": "currentJob"
+               },
+               "cancel": {
+                  "onActions": [ "cancelCurrentJob" ]
+               }
+            }
+         },
+         {
+            "widget": "results-activity",
+            "features": {
+               "results": {
+                  "resource": "latestResults"
+               },
+               "progress": {
+                  "resource": "latestProgress"
+               },
+               "job": {
+                  "resource": "currentJob"
+               },
+               "finish": {
+                  "action": "finishJob"
+               }
+            }
+         }
+      ],
+
+      "header": [
+         {
+            "widget": "version-information-widget",
+            "features": {
+               "entry": {
+                  "resource": "entry"
+               }
+            }
+         }
+      ],
+
+      "nav": [
+         {
+            "widget": "navigation-widget",
+            "features": {
+               "job": {
+                  "resource": "currentJob"
+               }
+            }
+         }
+      ],
+
+      "left": [
+         {
+            "widget": "scenario-browser-widget",
+            "features": {
+               "cancel": {
+                  "action": "cancelCurrentJob"
+               },
+               "activation": {
+                  "enabled": false
+               },
+               "job": {
+                  "resource": "currentJob"
+               },
+               "latestResults": {
+                  "resource": "latestResults"
+               },
+               "latestProgress": {
+                  "resource": "latestProgress"
+               },
+               "scenarios": {
+                  "resource": "items"
+               },
+               "selection": {
+                  "resource": "selectedItem"
+               },
+               "selectionResult": {
+                  "resource": "selectedItemResult"
+               }
+            }
+         }
+      ],
+
+      "right": [
+         {
+            "widget": "item-inspector-widget",
+            "features": {
+               "item": {
+                  "resource": "selectedItem"
+               },
+               "result": {
+                  "resource": "selectedItemResult"
+               },
+               "run": {
+                  "onActions": [ "TODO-REMOVE-runScenario" ],
+                  "action": "TODO-REMOVE-runWithOverrides"
+               },
+               "activation": {
+                  "action": "TODO-REMOVE-requestActivation",
+                  "enabled": false
+               },
+               "overrides": {
+                  "enabled": false
+               }
+            }
+         }
+      ]
+
+   }
+}

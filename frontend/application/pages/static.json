@@ -1,0 +1,77 @@
+{
+   "layout": "app",
+
+   "areas": {
+      "axActivities": [
+         {
+            "widget": "static-results-activity",
+            "features": {
+               "staticResults": {
+                  "resource": "latestResults"
+               },
+               "scenarios": {
+                  "resource": "items"
+               }
+            }
+         }
+      ],
+
+      "left": [
+         {
+            "widget": "scenario-browser-widget",
+            "features": {
+               "cancel": {
+                  "action": "cancelCurrentJob"
+               },
+               "activation": {
+                  "enabled": false
+               },
+               "job": {
+                  "resource": "currentJob"
+               },
+               "latestResults": {
+                  "resource": "latestResults"
+               },
+               "latestProgress": {
+                  "resource": "latestProgress"
+               },
+               "scenarios": {
+                  "resource": "items"
+               },
+               "selection": {
+                  "resource": "selectedItem"
+               },
+               "selectionResult": {
+                  "resource": "selectedItemResult"
+               }
+            }
+         }
+      ],
+
+      "right": [
+         {
+            "widget": "item-inspector-widget",
+            "features": {
+               "item": {
+                  "resource": "selectedItem"
+               },
+               "result": {
+                  "resource": "selectedItemResult"
+               },
+               "run": {
+                  "onActions": [ "TODO-REMOVE-runScenario" ],
+                  "action": "TODO-REMOVE-runWithOverrides"
+               },
+               "activation": {
+                  "action": "TODO-REMOVE-requestActivation",
+                  "enabled": false
+               },
+               "overrides": {
+                  "enabled": false
+               }
+            }
+         }
+      ]
+
+   }
+}

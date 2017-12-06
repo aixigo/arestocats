@@ -1,0 +1,77 @@
+{
+   "name": "scenario-runner-activity",
+   "description": "runs test items and reports status as well as results",
+
+   "integration": {
+      "technology": "plain",
+      "type": "activity"
+   },
+
+   "features": {
+      "$schema": "http://json-schema.org/draft-04/schema#",
+      "type": "object",
+      "properties": {
+
+         "entry": {
+            "type": "object",
+            "required": [ "resource" ],
+            "properties": {
+               "resource": {
+                  "type": "string",
+                  "format": "topic",
+                  "axRole": "inlet"
+               }
+            }
+         },
+
+         "run": {
+            "type": "object",
+            "properties": {
+               "enabled": {
+                  "properties": {
+                     "enabled": {
+                        "type": "boolean",
+                        "default": true
+                     }
+                  }
+               },
+               "onActions": {
+                  "type": "array",
+                  "items": {
+                     "type": "string",
+                     "format": "topic",
+                     "axRole": "inlet"
+                  }
+               }
+            }
+         },
+
+         "cancel": {
+            "type": "object",
+            "properties": {
+               "onActions": {
+                  "type": "array",
+                  "items": {
+                     "type": "string",
+                     "format": "topic",
+                     "axRole": "inlet"
+                  }
+               }
+            }
+         },
+
+         "job": {
+            "type": "object",
+            "required": [ "resource" ],
+            "properties": {
+               "resource": {
+                  "type": "string",
+                  "format": "topic",
+                  "axRole": "outlet"
+               }
+            }
+         }
+
+      }
+   }
+}

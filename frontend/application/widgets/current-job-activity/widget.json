@@ -1,0 +1,78 @@
+{
+   "name": "current-job-activity",
+   "description": "determines and fetches the current job (if any), along with its items",
+
+   "integration": {
+      "technology": "plain",
+      "type": "activity"
+   },
+
+   "features": {
+      "$schema": "http://json-schema.org/draft-04/schema#",
+      "type": "object",
+      "properties": {
+
+         "entry": {
+            "type": "object",
+            "required": [ "resource" ],
+            "properties": {
+               "resource": {
+                  "type": "string",
+                  "format": "topic",
+                  "axRole": "inlet"
+               }
+            }
+         },
+
+         "items": {
+            "type": "object",
+            "properties": {
+               "resource": {
+                  "type": "string",
+                  "format": "topic",
+                  "axRole": "outlet"
+               }
+            }
+         },
+
+         "job": {
+            "type": "object",
+            "required": [ "resource" ],
+            "properties": {
+               "resource": {
+                  "type": "string",
+                  "format": "topic",
+                  "axRole": "outlet"
+               }
+            }
+         },
+
+         "refresh": {
+            "type": "object",
+            "properties": {
+               "resource": {
+                  "description": "latest job data that was obtained in response to direct user interaction",
+                  "type": "string",
+                  "format": "topic",
+                  "axRole": "inlet"
+               },
+               "onActions": {
+                  "description": "refresh the job resource in response to certain events",
+                  "type": "array",
+                  "items": {
+                     "type": "string",
+                     "format": "topic",
+                     "axRole": "inlet"
+                  }
+               },
+               "interval": {
+                  "type": "number",
+                  "description": "automatically refresh after this many milliseconds (if not null)",
+                  "default": 5000
+               }
+            }
+         }
+
+      }
+   }
+}

@@ -1,0 +1,10 @@
+{
+  "generator-laxarjs2": {
+    "author": "aixigo AG",
+    "homepage": "",
+    "license": "UNLICENSED",
+    "infrastructure": false,
+    "integrationTechnology": "vue",
+    "banner": "/**\n * Copyright 2017 aixigo AG\n */"
+  }
+}

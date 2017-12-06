@@ -1,0 +1,7 @@
+{
+   "extends": "laxarjs",
+   "env": { "node": true, "browser": false, "mocha": false, "jasmine": false },
+   "rules": {
+      "no-shadow": "warn"
+   }
+}

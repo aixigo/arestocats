@@ -1,0 +1,11 @@
+#!/usr/bin/env node --harmony_object_rest_spread
+
+if( process.version < 'v8' ) {
+   // eslint-disable-next-line no-console
+   console.error( 'Error: aRESTocats requires NodeJS v8 or higher! Exiting.' );
+   process.exit( 1 );
+}
+
+const main = require( '../index' ).main;
+
+main();

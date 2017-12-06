@@ -1,0 +1,178 @@
+{
+   "name": "scenario-browser-widget",
+   "description": "allows to select a scenario from a list and to perform basic actions on it",
+   "styleSource": "scss/scenario-browser-widget.scss",
+
+   "controls": [ "scenario-browser-item-control" ],
+
+   "integration": {
+      "technology": "vue",
+      "type": "widget"
+   },
+
+   "features": {
+      "$schema": "http://json-schema.org/draft-04/schema#",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+
+         "activation": {
+            "type": "object",
+            "properties": {
+               "enabled": {
+                  "description": "allow for scenario activation",
+                  "type": "boolean"
+               },
+               "action": {
+                  "description": "requests the run of an item including dependencies by publishing a (partial) scenario",
+                  "type": "string",
+                  "format": "topic",
+                  "axRole": "outlet"
+               },
+               "onActions": {
+                  "description": "allows other widgets to trigger dependency-activation based on a standalone item",
+                  "type": "array",
+                  "items": {
+                     "type": "string",
+                     "format": "topic",
+                     "axRole": "inlet"
+                  }
+               }
+            }
+         },
+
+         "cancel": {
+            "type": "object",
+            "properties": {
+               "action": {
+                  "description": "requests cancellation of any currently running job",
+                  "type": "string",
+                  "format": "topic",
+                  "axRole": "outlet"
+               }
+            }
+         },
+
+         "scenarios": {
+            "type": "object",
+            "required": [ "resource" ],
+            "properties": {
+               "resource": {
+                  "type": "string",
+                  "format": "topic",
+                  "axRole": "inlet"
+               }
+            }
+         },
+
+         "selection": {
+            "type": "object",
+            "required": [ "resource" ],
+            "properties": {
+               "resource": {
+                  "type": "string",
+                  "format": "topic",
+                  "axRole": "outlet"
+               }
+            }
+         },
+
+         "selectionResult": {
+            "type": "object",
+            "required": [ "resource" ],
+            "properties": {
+               "resource": {
+                  "type": "string",
+                  "format": "topic",
+                  "axRole": "outlet"
+               }
+            }
+         },
+
+         "job": {
+            "type": "object",
+            "required": [ "resource" ],
+            "properties": {
+               "resource": {
+                  "type": "string",
+                  "format": "topic",
+                  "axRole": "inlet"
+               }
+            }
+         },
+
+         "latestResults": {
+            "type": "object",
+            "required": [ "resource" ],
+            "properties": {
+               "resource": {
+                  "type": "string",
+                  "format": "topic",
+                  "axRole": "inlet"
+               }
+            }
+         },
+
+         "latestProgress": {
+            "type": "object",
+            "required": [ "resource" ],
+            "properties": {
+               "resource": {
+                  "type": "string",
+                  "format": "topic",
+                  "axRole": "inlet"
+               }
+            }
+         },
+
+         "hiddenTypeSet": {
+            "type": "object",
+            "properties": {
+               "parameter": {
+                  "default": "scenario-browser-hidden-roles",
+                  "type": "string",
+                  "format": "topic",
+                  "axRole": "outlet"
+               }
+            }
+         },
+
+         "hiddenRoleSet": {
+            "type": "object",
+            "properties": {
+               "parameter": {
+                  "default": "scenario-browser-hidden-roles",
+                  "type": "string",
+                  "format": "topic",
+                  "axRole": "outlet"
+               }
+            }
+         },
+
+         "expandedSet": {
+            "type": "object",
+            "properties": {
+               "parameter": {
+                  "default": "scenario-browser-expanded",
+                  "type": "string",
+                  "format": "topic",
+                  "axRole": "outlet"
+               }
+            }
+         },
+
+         "selectedItemId": {
+            "type": "object",
+            "properties": {
+               "parameter": {
+                  "default": "scenario-browser-selected",
+                  "type": "string",
+                  "format": "topic",
+                  "axRole": "outlet"
+               }
+            }
+         }
+
+      }
+   }
+}

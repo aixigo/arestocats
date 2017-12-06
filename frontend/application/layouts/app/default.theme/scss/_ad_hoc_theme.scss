@@ -1,0 +1,35 @@
+/**
+ * Copyright 2017 aixigo AG
+ * Released under the MIT license.
+ * https://github.com/aixigo/arestocats/blob/master/LICENSE
+ */
+
+/**
+ * Make some layout-related modifications to the LaxarJS cube.theme
+ */
+
+$highlight-color: #f90;
+$regular-color: #666;
+
+i[role=button],
+span[role=button] i,
+h2[role=button] i,
+h3[role=button] i {
+   color: $regular-color;
+}
+
+i[role=button] {
+   &:focus, &:hover, &:active {
+      outline: none;
+      color: $highlight-color;
+   }
+}
+
+span[role=button],
+h2[role=button],
+h3[role=button] {
+   &:focus, &:hover, &:active {
+      outline: none;
+      i { color: $highlight-color; }
+   }
+}

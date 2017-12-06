@@ -1,0 +1,8 @@
+{
+   "name": "scenario-browser-item-control",
+   "styleSource": "scss/scenario-browser-item-control.scss",
+   "controls": [ "item-status-control" ],
+   "integration": {
+      "technology": "vue"
+   }
+}

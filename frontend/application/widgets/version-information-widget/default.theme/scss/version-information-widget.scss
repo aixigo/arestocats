@@ -1,0 +1,19 @@
+/**
+ * Copyright 2017 aixigo AG
+ */
+@charset "UTF-8";
+
+.version-information-widget {
+   text-align: right;
+   margin: auto;
+   margin-right: 0;
+   color: #999;
+
+   ul {
+      list-style-type: none;
+      padding-left: 0;
+      margin-top: 5px;
+      font-size: 70%;
+   }
+
+}

@@ -1,0 +1,95 @@
+/**
+ * Copyright 2017 aixigo AG
+ */
+@charset "UTF-8";
+
+@import 'font-awesome/scss/variables';
+@import 'laxar-cube.theme/scss/variables_all';
+
+$softColor: #999;
+$highlightColor: #fafaba;
+$busyColor: #ddd;
+
+.item-inspector-widget {
+   overflow: hidden;
+
+   small {
+      color: #aaa;
+   }
+
+   .ii-context-toggle {
+      cursor: pointer;
+   }
+
+   .ii-description {
+      background: white;
+      padding: 5px;
+      font-size: 120%;
+      em {
+         font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+         font-style: italic;
+         padding: 5px;
+      }
+   }
+
+   .ii-details-table {
+
+      table-layout: fixed;
+      overflow: hidden;
+      max-width: 100%;
+
+      col.ii-details-label {
+         max-width: 200px;
+         width: 30%;
+      }
+
+      col.ii-details-expand {
+         max-width: 20px;
+         width: 20px;
+      }
+
+      th {
+         border-right: 3px solid transparent;
+         width: 100px;
+         background: white;
+      }
+
+      td {
+         background: #e0e0e0;
+      }
+
+      th, td {
+         border-bottom: 3px solid transparent;
+         vertical-align: top;
+         padding: 3px;
+         padding-left: 5px;
+         white-space: nowrap;
+         text-overflow: ellipsis;
+         overflow: hidden;
+      }
+
+      pre {
+         min-height: 100px;
+         max-height: 300px;
+         overflow: auto;
+         padding: 0;
+         border: 0;
+         background: transparent;
+      }
+      pre, tt {
+         font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+         font-size: 13px;
+      }
+
+      // plus/close item
+      i {
+         cursor: pointer;
+         transition: transform 300ms;
+         transform: rotateZ(0);
+         display: inline-block;
+      }
+      .ii-details-expanded i {
+         transform: rotateZ(45deg);
+      }
+   }
+}

@@ -1,0 +1,45 @@
+
+ @charset "UTF-8";
+ @import 'font-awesome/scss/variables';
+ @import 'laxar-cube.theme/scss/variables_all';
+
+.navigation-widget {
+   $navHeight: 24px;
+   height: $navHeight;
+   padding-bottom: 12px;
+
+   a {
+      font-family: "Exo 2", Arial, sans-serif;
+      display: inline-block;
+      padding-left: 10px;
+      padding-right: 20px;
+      padding-top: 0;
+      padding-bottom: 0;
+      margin: 0;
+      height: $navHeight;
+      line-height: $navHeight;
+      border: none;
+      border-right: 1px dotted #ccc;
+      font-size: 16px;
+   }
+   a.active, a:active {
+      color: #f90;
+   }
+
+   i.navigation-outcome-unavailable::before {
+      color: #999;
+      content: $fa-var-question-circle;
+   }
+   i.navigation-outcome-error::before {
+      color: $brand-danger;
+      content: $fa-var-times-circle;
+   }
+   i.navigation-outcome-success::before {
+      color: $brand-success;
+      content: $fa-var-check-circle;
+   }
+   i.navigation-outcome-failure::before {
+      color: $brand-warning;
+      content: $fa-var-exclamation-triangle;
+   }
+}

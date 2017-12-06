@@ -1,0 +1,30 @@
+{
+   "name": "navigation-widget",
+   "description": "allows to inspect and modify the current page",
+   "styleSource": "scss/navigation-widget.scss",
+
+   "integration": {
+      "technology": "vue",
+      "type": "widget"
+   },
+
+   "features": {
+      "$schema": "http://json-schema.org/draft-04/schema#",
+      "type": "object",
+      "properties": {
+
+         "job": {
+            "type": "object",
+            "required": [ "resource" ],
+            "properties": {
+               "resource": {
+                  "type": "string",
+                  "format": "topic",
+                  "axRole": "inlet"
+               }
+            }
+         }
+
+      }
+   }
+}

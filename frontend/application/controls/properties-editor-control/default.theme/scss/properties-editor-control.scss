@@ -1,0 +1,119 @@
+/**
+ * Copyright 2017 aixigo AG
+ * Released under the MIT license.
+ * https://github.com/aixigo/arestocats/blob/master/LICENSE
+ */
+
+@charset "UTF-8";
+
+.properties-editor-control  {
+   $inactive-color: #999;
+   $active-color: #f90;
+
+   button.pec-type {
+      padding-right: 0;
+      color: $inactive-color;
+      &:focus, &:hover, &:active, &.active {
+         outline: none!important;
+         background: $active-color;
+         color: white;
+      }
+      &:disabled {
+         background: transparent;
+         border-radius: 0;
+         &:focus, &:hover, &:active, &.active {
+            background: #999;
+            color: #fff!important;
+         }
+      }
+   }
+
+   button.pec-apply {
+      padding-right: 0;
+      color: $active-color;
+      &.active, &:hover {
+         color: $active-color;
+         background: transparent;
+         outline: none;
+      }
+      &:focus {
+         text-decoration: underline;
+         outline: none;
+      }
+   }
+
+   input {
+      width: 100%;
+      border: 0;
+      padding: 0;
+      background: transparent;
+      border: none;
+      border-bottom: 1px dotted #ccc;
+      &:focus {
+         outline: none;
+         border-bottom-color: $active-color;
+      }
+   }
+
+   label {
+      &.ax-error {
+         border-bottom-color: #a94442 !important;
+         color: #a94442 !important;
+      }
+   }
+
+   ::placeholder {
+      font-style: italic;
+      font-weight: normal;
+      color: $inactive-color;
+   }
+
+   table {
+      width: 100%;
+      table-layout: fixed;
+
+      td, th {
+         vertical-align: middle;
+         border: 0;
+         padding: 2px;
+         padding-right: 10px;
+         padding-top: 6px;
+         overflow: hidden;
+         white-space: nowrap;
+         label {
+            display: inline-block;
+            width: 100%;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+         }
+         &:last-child {
+            padding-right: 0;
+            text-align: right;
+            width: 16px;
+         }
+      }
+
+      col.pec-name {
+         width: 30%;
+         max-width: 200px;
+      }
+
+      col.pec-type {
+         width: 70px;
+      }
+
+      td.pec-type {
+         padding-right: 0;
+         .btn {
+            font-family: "Exo 2", monospace;
+            width: 22px;
+            padding-left: 5px;
+            padding-right: 5px;
+         }
+      }
+   }
+   label {
+      margin-bottom: 0;
+   }
+}

@@ -1,0 +1,7 @@
+{
+   "name": "properties-editor-control",
+   "styleSource": "scss/properties-editor-control.scss",
+   "integration": {
+      "technology": "vue"
+   }
+}

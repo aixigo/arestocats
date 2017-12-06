@@ -1,0 +1,111 @@
+/**
+ * Copyright 2017 aixigo AG
+ * Released under the MIT license.
+ * https://github.com/aixigo/arestocats/blob/master/LICENSE
+ */
+
+@import 'ad_hoc_theme';
+
+$headerHeight: 50px;
+$titleHeight: $headerHeight + 10px;
+$navHeight: 24px;
+body.use-app-layout {
+   background-position-y: -( $headerHeight );
+   &::before { height: $headerHeight; }
+   .app-layout .app-title:first-child {
+      height: $titleHeight;
+   }
+}
+
+main {
+   margin-top: $navHeight;
+}
+
+main h2 {
+   margin-top: 20px;
+}
+
+body, header {
+   min-width: 640px;
+}
+
+header h1 {
+   margin-top: 8px;
+   height: $headerHeight;
+   line-height: $headerHeight - 10px;
+
+   a:hover,
+   a:active,
+   a:focus {
+      text-decoration: none;
+      i {
+         filter: none;
+      }
+   }
+
+   i {
+      font-style: normal;
+      font-size: 90%;
+      filter: grayscale(100%) contrast(200%) brightness(0.1);
+      opacity: 0.5;
+   }
+}
+
+.app-layout > .container {
+   position: relative;
+   width: 100%!important;
+   > main > [data-ax-widget-area] {
+      vertical-align: top;
+      display: inline-block;
+   }
+}
+
+main {
+   width: 100%;
+}
+.app-title {
+   margin-bottom: 0;
+}
+
+.app-nav::before {
+   clear: both;
+}
+.app-nav {
+   background: #f0f0f0;
+   // margin-top: -( $titleHeight - $headerHeight );
+   position: relative;
+   top: -8px;
+   > * {
+      position: relative;
+      top: -8px;
+   }
+   height: $navHeight;
+}
+
+[data-ax-widget-area=left] {
+   width: 50%;
+}
+
+[data-ax-widget-area=right] {
+   position: sticky;
+   top: 0;
+   width: 45%;
+   padding-left: 15px;
+}
+
+
+i.fa-spinner {
+   animation-name: app-busy-spinner;
+   animation-duration: 0.5s;
+   animation-iteration-count: infinite;
+   animation-timing-function: linear;
+}
+
+@keyframes app-busy-spinner {
+   from {
+      transform: rotateZ(0deg)
+   }
+   to {
+      transform: rotateZ(360deg)
+   }
+}

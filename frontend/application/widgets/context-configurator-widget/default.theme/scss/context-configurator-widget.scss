@@ -1,0 +1,10 @@
+/**
+ * Copyright 2017 aixigo AG
+ */
+@charset "UTF-8";
+@import 'font-awesome/scss/variables';
+@import 'laxar-cube.theme/scss/variables_all';
+
+.context-configurator-widget {
+   width: calc( 100% - 48px );
+}
