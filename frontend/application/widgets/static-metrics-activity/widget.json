@@ -1,0 +1,27 @@
+{
+   "name": "static-metrics-activity",
+   "description": "",
+
+   "integration": {
+      "technology": "plain",
+      "type": "widget"
+   },
+
+   "features": {
+      "$schema": "http://json-schema.org/draft-04/schema#",
+      "type": "object",
+      "properties": {
+         "staticMetrics": {
+            "type": "object",
+            "reqiured": [ "resource" ],
+            "properties": {
+               "resource": {
+                  "type": "string",
+                  "format": "topic",
+                  "axRole": "outlet"
+               }
+            }
+         }
+      }
+   }
+}

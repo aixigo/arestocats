@@ -9,23 +9,16 @@ module.exports = report;
 const fs = require( 'fs' );
 const path = require( 'path' );
 
-const reportsPath = 'reports';
-const resultsPath = path.join( reportsPath, 'results' );
-const htmlDir = path.join( resultsPath, 'html' );
+const { htmlPath, assertPathExists } = require( './report-paths' );
 
 function report( allResults, jobItems, jobResult ) {
-   if( !fs.existsSync( reportsPath ) ) {
-      fs.mkdirSync( reportsPath );
-   }
-   if( !fs.existsSync( htmlDir ) ) {
-      fs.mkdirSync( htmlDir );
-   }
+   assertPathExists( htmlPath );
    fs.writeFileSync(
-      path.join( `${htmlDir}`, 'results.js' ),
+      path.join( `${htmlPath}`, 'results.js' ),
       `window.arestocatResults = ${JSON.stringify( jobResult, null, 3 )};`
    );
    fs.writeFileSync(
-      path.join( `${htmlDir}`, 'items.js' ),
+      path.join( `${htmlPath}`, 'items.js' ),
       `window.arestocatItems = ${JSON.stringify( jobItems, null, 3 )};`
    );
 }
