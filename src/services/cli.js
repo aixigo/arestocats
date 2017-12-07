@@ -9,13 +9,13 @@
  *
  * @module cli
  */
-
 /* global fetch */
 require( 'isomorphic-fetch' );
 
 const createLoader = require( './loader' );
 const createRunner = require( './runner' );
 
+const { generateOutputForJenkins } = require( '../reporters/metric.js' );
 const { delay } = require( '../util/async-helpers' );
 const { print } = require( '../util/general-helpers' );
 const { SUCCESS, worstOf } = require( '../outcomes' );
@@ -52,6 +52,7 @@ module.exports = function( state, options = {} ) {
          return run( job )
             .then( success => {
                const allResultTrees = resultTrees( job.items(), job.results() );
+               generateOutputForJenkins( job.metrics(), reporters.includes( 'html' ) );
                reporterList.forEach( report => {
                   report( allResultTrees, job.items(), job.results() );
                } );
@@ -62,18 +63,30 @@ module.exports = function( state, options = {} ) {
       ///////////////////////////////////////////////////////////////////////////////////////////////////////
 
       function runRemotely( rootItems ) {
-         return fetch( remote )
+         const remotePromise = fetch( remote )
             .then( _ => _.json() )
             .then( entry => entry._links.jobs.href )
             .then( jobsHref => {
                const headers = { 'Content-Type': 'application/json' };
                const body = JSON.stringify( rootItems );
                return fetch( absUrl( jobsHref ), { method: 'POST', headers, body } );
-            } )
+            } );
+
+         const resultsPromise = remotePromise
             .then( follower() )
             .then( follower( 'results' ) )
+            .then( _ => _.json() );
+
+         const metricsPromise = remotePromise
+            .then( follower() )
+            .then( follower( 'metrics' ) )
             .then( _ => _.json() )
-            .then( results => {
+            .then( metrics => {
+               generateOutputForJenkins( metrics, reporters.includes( 'html' ) );
+            } );
+
+         return Promise.all( [ resultsPromise, metricsPromise ] )
+            .then( ( [ results ] ) => {
                const allResultTrees = resultTrees( rootItems, results );
                reporterList.forEach( report => {
                   report( allResultTrees, rootItems, results );

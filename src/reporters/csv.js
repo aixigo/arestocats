@@ -9,31 +9,21 @@ module.exports = report;
 const fs = require( 'fs' );
 const path = require( 'path' );
 const sanitize = require( 'sanitize-filename' );
-const { outcomes } = require( '../outcomes.js' );
 
-const reportsPath = 'reports';
-const resultsPath = path.join( reportsPath, 'results' );
-const csvDir = path.join( resultsPath, 'csv' );
+const { outcomes } = require( '../outcomes.js' );
+const { csvPath, assertPathExists } = require( './report-paths' );
 
 function report( allResults ) {
-   if( !fs.existsSync( reportsPath ) ) {
-      fs.mkdirSync( reportsPath );
-   }
-   if( !fs.existsSync( resultsPath ) ) {
-      fs.mkdirSync( resultsPath );
-   }
-   if( !fs.existsSync( csvDir ) ) {
-      fs.mkdirSync( csvDir );
-   }
+   assertPathExists( csvPath );
    const summarySuite = [];
    allResults.forEach( result => {
       const testSuites = buildReport( result );
       summarySuite.push( ...testSuites );
       testSuites.forEach( summarizeSuite );
-      const sanitizedFileName = sanitize(result.subject.name);
-      fs.writeFileSync( path.join( csvDir, `${sanitizedFileName}.csv` ), asCsv( testSuites ) );
+      const sanitizedFileName = sanitize( result.subject.name );
+      fs.writeFileSync( path.join( csvPath, `${sanitizedFileName}.csv` ), asCsv( testSuites ) );
    } );
-   fs.writeFileSync( path.join( csvDir, 'summary.csv' ), asCsv( summarySuite ) );
+   fs.writeFileSync( path.join( csvPath, 'summary.csv' ), asCsv( summarySuite ) );
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
