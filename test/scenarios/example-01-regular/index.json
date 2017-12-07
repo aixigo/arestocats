@@ -1,0 +1,13 @@
+{
+   "type": "suite",
+   "description": "basic smoke-tests",
+   "defaults": {
+      "baseUrl": "https://jsonplaceholder.typicode.com"
+   },
+   "items": [
+      {
+         "type": "include",
+         "src": "api-get"
+      }
+   ]
+}

@@ -21,51 +21,113 @@ With _aRESTocats_ you can
 
 ## Setup
 
+The simple way to get started is to install aRESTocats globally:
+
 ```console
-> npm install
+> npm install -g arestocats
 ```
+
+Once familiar, you should probably add aRESTocats as a dev-dependency to the individual projects that you are using it with, and use it from there.
+This will provide more control over the version used with each project.
 
 
 ## Usage
 
-Add `arestocats` as a dev-dependency to your project:
+Now you may run the _arestocats_ command:
 
 ```console
-> npm install --save-dev arestocats
+> arestocats [scenario1 … scenarioN] [OPTIONS]
 ```
 
-Then you may run the _arestocats_ command:
+The aRESTocats runner will look for the named scenarios in the `./scenarios` root folder by default.
+Each scenario is specified by the name of a sub-folder, containing an `index.js` or an `index.json`.
+You may change the scenarios root folder using the `--src` option.
+If no scenarios are given, every item in the scenarios root folder will be loaded.
+
+The aRESTocats tool contains a couple of demo scenarios that run against the publicly available API [jsonplaceholder.typicode.com](https://jsonplaceholder.typicode.com).
+For example, to run one of the demo scenarios included with aRESTocats, run:
 
 ```console
-> ./node_modules/.bin/arestocats [scenario1 … scenarioN] [OPTIONS]
+> arestocats example-01-success --src="$(npm root -g)/arestocats/test/scenarios"
 ```
 
-You can also install the _arestocats_ command globally (`npm install -g arestocats`), to be able to omit the `./node_modules/.bin/` part.
-This also allows you to use arestocats without creating a `package.json` first.
-
-Each scenario is specified by passing the name of a folder, containing an `index.js` or an `index.json`.
-The aRESTocats runner will look for scenarios in the `./scenarios` folder by default.
-You may change this using the `--src` option.
-If no scenarios (1…N) are given, every item in the scenarios folder will be loaded.
-
-For example, to run the smoke-tests included with aRESTocats, run:
+Or, to simplify the invocation, let's copy the demo scenarios to our local working directory:
 
 ```console
-> ./node_modules/.bin/arestocats --src=./node_modules/arestocats/test/scenarios --context.baseUrl=https://jsonplaceholder.typicode.com
+> cp -r "$(npm root -g)/arestocats/test/scenarios" scenarios
+> arestocats example-01-success
 ```
 
-*Note* that this reports `ERROR` as a result, because the third sub-item is meant to demo an error case.
-The first item should yield `SUCCESS`, and the second item should be a `FAILURE`.
+Now, for an example of a *failing* scenario (where an expectation is not met), run:
 
+```console
+> arestocats example-02-failure
+```
+
+Or to see an *error* (a test that is broken by itself):
+
+```console
+> arestocats example-03-error
+```
+
+Finally, to run all demo scenarios:
+
+```console
+> arestocats
+```
+
+Because the third scenario errors, this will yield an overall outcome of error.
+
+
+### Creating Test Items
+
+To get started with creating your own test items, the demo items are a good starting point.
+Assuming you copied them to a working directory as described above, let's have a look at the successful scenario:
+
+Scenarios are always represented by their _index_ item (`index.json` or `index.js`), just like regular NPM packages.
+In case of the `example-01-success` scenario, the JSON format is used:
+
+```json
+{
+   "type": "suite",
+   "description": "basic smoke-tests",
+   "defaults": {
+      "baseUrl": "https://jsonplaceholder.typicode.com"
+   },
+   "items": [
+      {
+         "type": "include",
+         "src": "api-get"
+      }
+   ]
+}
+```
+
+An aRESTocats scenario is composed of _test item_, with the scenario itself being the top-level item.
+Each item has a _type_ ("suite" in this case), which determines the plugin that handles the item declaration.
+It may also have a _name_ used to identify item results (does not need to be globally unique), and an informative _description_.
+Some item types (like the _suite_ type) support child _items_. 
+The item type _suite_ is used to compose test items for sequential execution.
+If any of the item fails, the suite continues running, but fails overall.
+If any of the item errors, the suite errors and aborts.
+
+This suite also has _defaults_ used to set _context options_ for all nested items.
+You can set and override context options from the command-line, like `baseUrl` in this case:
+
+```console
+> arestocats example-01-success --context.baseUrl=http://localhost:8000
+```
+
+This is useful during development, where you will probably test an API running on your local machine rather than anything that is hardcoded in the scenarios.
 
 
 ### Web Interface
 
-Instead of just running the tests right away, you can start a web interface.
+Instead of just running the tests right away, you can start the _web interface._
 This will allow users to trigger individual items manually, to tweak configuration, and to share result links.
 
 ```console
-./node_modules/.bin/arestocats --service
+arestocats --service
 ```
 
 Now, visit [http://localhost:3000](http://localhost:3000) for interactive testing.
