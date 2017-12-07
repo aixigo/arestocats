@@ -28,9 +28,9 @@ function reportSingleResult( result, indent = 0 ) {
 
    const space = Array( indent + 1 ).join( ' ' );
    const [ color, details ] = {
-      SUCCESS: () => [ green, reindent( message ) ],
+      SUCCESS: () => [ green, message ],
       SKIPPED: () => [ grey, message ],
-      FAILURE: () => [ yellow, yellow( reindent(failures) ) ],
+      FAILURE: () => [ yellow, failures ],
       ERROR: () => [
          red,
          `${red(errors)} ${reindent( errors[ 0 ] && ( errors[ 0 ].stack || JSON.stringify(errors) ) )}`
@@ -40,10 +40,8 @@ function reportSingleResult( result, indent = 0 ) {
    const itemSource = sourceFile ? `| .../${sourceFile}` : '';
    const itemInfo = `[${type} ${name} ${itemSource}] ${description ? ` - ${description}` : ''}`;
    const timeInfo = `${formatDuration(durationMs)}`;
-   print( `${space}+ ${color(outcome)} ${timeInfo} ${itemInfo}`);
-   if( details ) {
-      print( grey( `${space}  ${details}` ) );
-   }
+   const itemDetailsPart = details ? grey( reindent( `\n${details}` ) ) : '';
+   print( `${space}+ ${color(outcome)} ${timeInfo} ${itemInfo}${itemDetailsPart}` );
 
    if( outcome === 'SUCCESS' && nested.length && [ 'prepare', 'cleanup' ].includes( role ) ) {
       print( grey( `${space}  role=${role}: omitting nested items` ) );
@@ -59,7 +57,7 @@ function reportSingleResult( result, indent = 0 ) {
             reindent( content.split( '\n' ) );
       }
       if( Array.isArray( content ) ) {
-         return [ '', ...content ].map( reindent ).join( `\n${space}  ` );
+         return [ ...content ].map( reindent ).join( `\n${space}  ` );
       }
       if( typeof content === 'undefined' ) {
          return '';

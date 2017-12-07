@@ -2,6 +2,8 @@
 
 > Run declarative integration tests against your REST services
 
+_Note that this project, while already useful, is still maturing and being actively developed._
+
 ## Features
 
 With _aRESTocats_ you can
@@ -11,7 +13,7 @@ With _aRESTocats_ you can
  - export results as interactive HTML, in JUnit format, and/or to a human-friendly standard out format
  - declare tests using simple, composable JSON blocks
  - use builtin plugins:
-   HTTP request, delay, expectation checks, OAuth2/JWT login, HAL-request, debugging output
+   HTTP request, delay, expectation checks, OAuth2/JWT login, MQTT, basic load tests, debugging output
  - add custom plugins by implementing a simple JavaScript interface
  - launch tests from the command line, even remotely (through a REST interface)
  - …or interactively through the web interface
@@ -21,7 +23,7 @@ With _aRESTocats_ you can
 
 ## Setup
 
-The simple way to get started is to install aRESTocats globally:
+A simple way to get started is to install _aRESTocats_ globally:
 
 ```console
 > npm install -g arestocats
@@ -33,29 +35,35 @@ This will provide more control over the version used with each project.
 
 ## Usage
 
-Now you may run the _arestocats_ command:
+Now you may run the `arestocats` command:
 
 ```console
 > arestocats [scenario1 … scenarioN] [OPTIONS]
 ```
 
-The aRESTocats runner will look for the named scenarios in the `./scenarios` root folder by default.
-Each scenario is specified by the name of a sub-folder, containing an `index.js` or an `index.json`.
+The test runner will look for the named scenarios in the `./scenarios` root folder by default.
+Each scenario is specified by the name of a sub-folder containing an `index.js` or an `index.json` file.
 You may change the scenarios root folder using the `--src` option.
-If no scenarios are given, every item in the scenarios root folder will be loaded.
+If no scenarios are given, all items in the scenarios root folder will be loaded.
 
-The aRESTocats tool contains a couple of demo scenarios that run against the publicly available API [jsonplaceholder.typicode.com](https://jsonplaceholder.typicode.com).
-For example, to run one of the demo scenarios included with aRESTocats, run:
+The _aRESTocats_ package contains a couple of demo scenarios that run against the publicly available [jsonplaceholder.typicode.com API](https://jsonplaceholder.typicode.com).
+These examples illustrate how to make HTTP requests and then check expectations against the respective responses.
+
+For example, to run the first of the demo scenarios included with aRESTocats, run:
 
 ```console
-> arestocats example-01-success --src="$(npm root -g)/arestocats/test/scenarios"
+> arestocats example-01-regular --src="$(npm root -g)/arestocats/test/scenarios"
 ```
 
-Or, to simplify the invocation, let's copy the demo scenarios to our local working directory:
+This should output something like the following result:
+
+![Example of successful aRESTocats test run](./docs/screenshots/arestocats-cli-success.png)
+
+To simplify the invocation, let's copy the demo scenarios to our local working directory:
 
 ```console
 > cp -r "$(npm root -g)/arestocats/test/scenarios" scenarios
-> arestocats example-01-success
+> arestocats example-01-regular
 ```
 
 Now, for an example of a *failing* scenario (where an expectation is not met), run:
@@ -64,11 +72,15 @@ Now, for an example of a *failing* scenario (where an expectation is not met), r
 > arestocats example-02-failure
 ```
 
-Or to see an *error* (a test that is broken by itself):
+![Example of failing aRESTocats test run](./docs/screenshots/arestocats-cli-failing.png)
+
+Or to see an *error* (a test that is broken by itself) in action:
 
 ```console
 > arestocats example-03-error
 ```
+
+![Example of aRESTocats test run error](./docs/screenshots/arestocats-cli-error.png)
 
 Finally, to run all demo scenarios:
 
@@ -76,7 +88,27 @@ Finally, to run all demo scenarios:
 > arestocats
 ```
 
-Because the third scenario errors, this will yield an overall outcome of error.
+Because the third scenario errors, this will yield an overall outcome of *error.*
+
+
+### Using the Web Interface
+
+Instead of just running the tests right away, you can start the _web interface._
+This will allow users to trigger individual items manually, to tweak configuration, and to share result links.
+
+```console
+> arestocats --service
+```
+
+Now, visit [http://localhost:3000](http://localhost:3000) for interactive testing:
+
+
+![The aRESTocats web interface](./docs/screenshots/arestocats-web-interface.png)
+
+Currently, the web interface does not automatically reload when you change your test items.
+However, you can use a process manager such as [PM2](http://pm2.keymetrics.io/) to achieve this.
+
+Also, for live streaming of results, you currently need a browser that supports [HTTP fetch streaming](https://developer.mozilla.org/en-US/docs/Web/API/ReadableStream#Browser_compatibility), so Google Chrome is currently recommended.
 
 
 ### Creating Test Items
@@ -103,34 +135,25 @@ In case of the `example-01-success` scenario, the JSON format is used:
 }
 ```
 
-An aRESTocats scenario is composed of _test item_, with the scenario itself being the top-level item.
+An aRESTocats _scenario_ is composed of _test items_, with the scenario itself being the top-level item.
+
 Each item has a _type_ ("suite" in this case), which determines the plugin that handles the item declaration.
 It may also have a _name_ used to identify item results (does not need to be globally unique), and an informative _description_.
-Some item types (like the _suite_ type) support child _items_. 
+Some item types (like the _suite_ type) support _child items_.
+
 The item type _suite_ is used to compose test items for sequential execution.
 If any of the item fails, the suite continues running, but fails overall.
 If any of the item errors, the suite errors and aborts.
 
 This suite also has _defaults_ used to set _context options_ for all nested items.
-You can set and override context options from the command-line, like `baseUrl` in this case:
+These values can be used in _property expressions_ (see below), e.g. to control which host to make REST API calls to.
+You can _set missing_ context options and override pre-configured values from the command-line, like `baseUrl` in this case:
 
 ```console
 > arestocats example-01-success --context.baseUrl=http://localhost:8000
 ```
 
 This is useful during development, where you will probably test an API running on your local machine rather than anything that is hardcoded in the scenarios.
-
-
-### Web Interface
-
-Instead of just running the tests right away, you can start the _web interface._
-This will allow users to trigger individual items manually, to tweak configuration, and to share result links.
-
-```console
-arestocats --service
-```
-
-Now, visit [http://localhost:3000](http://localhost:3000) for interactive testing.
 
 
 ### Options
@@ -145,11 +168,11 @@ Now, visit [http://localhost:3000](http://localhost:3000) for interactive testin
 
  - `--service.developmentProxy` _for development only,_ to forward `/dev` to the webpack-dev-server
 
- - `--service.developmentProxyTargetPort=1234` _for development only,_ if the webpack-dev-server is not listening on 8080
+ - `--service.developmentProxyTargetPort=...` _for development only,_ if the webpack-dev-server is not listening on 8080
 
- - `--cli` to enable command-line output (automatically enabled if REST service is not used),
+ - `--cli` to enable immediate command-line execution (automatically enabled if REST service is not used),
 
- - `--cli.reporters=...` comma-separated list of reporters. Available: `stdout`, `junit`, `html` (default: `stdout`),
+ - `--cli.reporters=...` comma-separated list of reporters for CLI execution. Available: `stdout`, `junit`, `html` (default: `stdout`),
 
  - `--cli.wait=<seconds>` how long to wait for launching the initial tests,
 
@@ -158,8 +181,8 @@ Now, visit [http://localhost:3000](http://localhost:3000) for interactive testin
 
 ## Test Definitions Format
 
-Each scenario and each sub-item ill be loaded using Node `require`.
-Each test item should be an object with a `type` property, on which the other properties depend.
+Each scenario and each sub-item will be loaded using NodeJS [require](https://nodejs.org/docs/latest-v8.x/api/modules.html#modules_require).
+Each test item should be an object with a `type` property, on which most other properties depend.
 
 Here is a list of all general-purpose properties:
 
@@ -180,26 +203,26 @@ These may be specified as _constants_ or as _expressions_:
 * An item property is specified as a _constant_ by simply setting it on the item definition (side-by-side with `type`).
 The applicable values depend on the property, as long as they can be encoded/decoded to/from JSON.
 
-* An item property is specified as an _expression_ by prefixing the property name with a colon (e.g. `:key` instead of `key`).
+* An item property is specified as a _property expression_ by prefixing the property name with a colon (e.g. writing `:key` instead of `key`).
 The right side of such properties will be expanded by evaluating them as JavaScript, immediately before running an item.
-For the evaluation, properties of the _context_ are available, including the special `$results` object.
+For the evaluation, properties of the _context_ are available, including the special `$results` object that references all previous test results by item name.
 
 Often, items types also have a default that is used for properties that are not defined by an item.
 
 
-### Phases
+## Run Phases
 
 The API tester runs in multiple phases:
 
 
-#### Pre Phase
+### Pre Phase
 
 The `pre` phase _preprocesses_ the test items into one big JSON-serializable JS object.
 Items loaded from external files (using `include`) are inlined into their parent item, and the context for each item is expanded.
 The resulting structure may be used to inspect and/or reproduce individual test runs.
 
 
-#### Run Phase
+### Run Phase
 
 The `run` phase executes test items recursively.
 
@@ -208,26 +231,28 @@ For example, this allows you to `expect` properties of a `request` item response
 When items have the same name, only the result of the *most-recently run* can be referenced.
 
 
-#### Report Phase
+### Report Phase
 
-The `report` phase processes and outputs test results.
+The `report` phase processes and outputs test results, using all of the configured reporters.
 
 
-### Context
+## The Run Context
 
-During preprocessing, test items receive a _context_ from _above_, i.e. from their parent tests or from command line options.
-Some types of test items (`suite`, `include`) may contain or reference _nested items_: they pass down _context_ to these items.
-If you think of a test item as a small program, the context properties correspond to environment variables, while the regular configuration options correspond to command line arguments.
+During preprocessing, test items receive a _context_ (a map of strings) from _above_, i.e. from their parent tests or from command line options.
+Some types of test items (`suite`, `include`) may contain or reference _nested items_: they pass down their _context_ to these items.
+If you think of a test plugin as a small program, the context properties correspond to environment variables, while the regular item (expression) properties correspond to (interpolated) command line arguments.
 
 Test items may specify `defaults` for context properties (as a JS object), which are overwritten by context inherited from above.
 Additionally, test items may specify `overrides` (also as an object), changing the context inherited from above for themselves and for their nested items.
 All other properties will only be available to the items themselves when run, and are not part of the inheritance context.
 
+Note that there is no actual sandboxing in place! So security-wise you should treat aRESTocats scenarios just like you would regular executable code. However, this should not be much of a surprise because test items are usually defined in `.js` files.
+
 Also, test items may (sometimes must) have a `name` for reference purposes.
 This name is not required to be globally unique, but should be unique within specific contexts (e.g. for members of a `suite`).
 
 
-#### Context Properties: `role`
+### Context Properties: `role`
 
 The `role` is an optional string property that can be used to indicate the purpose of an item:
 
@@ -235,14 +260,13 @@ The `role` is an optional string property that can be used to indicate the purpo
 - `"test"` *(default - do not manually specify)* - this item is itself a test
 - `"cleanup"` - this item is needed for cleanup.
 
-This distinction is helpful to create UI representation of test items trees.
+This distinction is helpful to create UI representation of test item trees.
 Because the role is part of the context, it is automatically inherited by nested items.
 
-*Note:* cleanup items are not run if a preceeding item *errors*.
-This may be changed in the future, so that cleanup items could serve the purpose of a `finally` clause.
+*Note:* currently, cleanup items are not run if a preceeding item *errors*!
 
 
-### Results
+## Test Results
 
 Each test item produces a _result_ (wrapped in a promise) when run.
 A result is an object with an `outcome` and (optionally) additional properties.
@@ -266,13 +290,19 @@ The difference between `ERROR` and `FAILURE`:
 
 The runner will automatically set the outcome `ERROR` for items that throw an exception or that reject their result promise.
 
+Results may be referenced from property expressions of subsequent items.
+E.g. the status code of a `request` item named `myRequest` is accessible under `$results.myRequest.response.status`.
+When there are multiple items of the same name, latter results simply shadow prior results, making them unavailable for reference.
+In practice, this works because you should only reference results from items of the same suite.
+The reporting is based on item-IDs generated during the pre phase, so it will still contain all results.
 
-#### Result Message
+
+### Result Message
 
 Results may contain a `message` string with additional human-audience information.
 
 
-#### Result Failures and Error
+### Result Failures and Error
 
 If the outcome is `FAILURE`, there should be a `failures` array of strings, explaining each violated expectation.
 If the outcome is `ERROR`, there should be an `error` object, preferably an exception instance.
@@ -282,22 +312,24 @@ If the outcome is `ERROR`, there should be an `error` object, preferably an exce
 
 The test runner adds a field `durationMs` (Number) to each result, containing the duration of an item execution in milliseconds.
 This can be used in subsequent expectations, for example to check performance requirements.
+It is also the number occuring in the colored CLI output.
 
 
 ## Test Item Types
 
-The following item types are available.
-For each item type, the applicable configuration properties and context variables are listed.
+The following item types are available out-of-the-box.
+For each item type, the applicable configuration properties and context variables are listed here.
 Properties marked as *(pre)* are evaluated during the preprocessing phase.
 This means that they cannot refer to any `$results` if set using expressions.
 
 
 ---
-### `assign` - add properties to results
+### `assign` - compute custom results
 
 Use this to assign an expression value to the item result value, or to copy properties to the result.
+Usually, this is used to create shortcuts into deeply nested JSON response documents.
 
-#### assign: Configuration Properties
+#### `assign` plugin: Configuration Properties
 
 - `value` (*)
 
@@ -307,7 +339,7 @@ Use this to assign an expression value to the item result value, or to copy prop
 
    *properties of this object will be copied over to the result*
 
-#### assign: Result Properties
+#### `assign` plugin: Result Properties
 
 - `value` (*)
 
@@ -322,8 +354,9 @@ Use this to assign an expression value to the item result value, or to copy prop
 ### `delay` - wait for some time
 
 Use this to allow for an external process to complete.
+Useful if the system under test imposes rate limits, e.g. for login attempts.
 
-#### assign: Configuration Properties
+#### `delay` plugin: Configuration Properties
 
 - `milliseconds` (Number) - wait duration
 
@@ -334,7 +367,7 @@ Use this to allow for an external process to complete.
 After making one or several requests, usually there are expections on the results.
 For this, the `expect` type is used.
 
-#### expect: Configuration Properties
+#### `expect` plugin: Configuration Properties
 
 - `value` (any)
 
@@ -352,7 +385,7 @@ For this, the `expect` type is used.
 
   *determine if comparison is using `==` (relaxed) or `===` (strict)*
 
-#### expect: Result Properties
+#### `expect` plugin: Result Properties
 
 - `actual` (any) - the actual evaluation result
 
@@ -364,7 +397,7 @@ During the `pre` phase, this item is replaced with the (preprocessed) test item 
 If `options` are specified, they are inherited by the included item.
 This means that the same suite may be used multiple times, each time with different options.
 
-#### include: Configuration Properties
+#### `include` plugin: Configuration Properties
 
 - `src` (String) - path to a test item module.
   If relative, the path is resolved based on the including file *(pre)*
@@ -375,8 +408,10 @@ This means that the same suite may be used multiple times, each time with differ
 
 Make a lot of requests to a given URL, and track how quickly each response arrives.
 Load-tests are based on the NPM library [loadtest](https://www.npmjs.com/package/loadtest).
+Because NodeJS is single-threaded, this is not as powerful as a dedicated load-tester such as [JMeter](http://jmeter.apache.org/).
+However, this is still useful to simply measure and monitor API performance against significant regressions.
 
-#### load: Configuration Properties
+#### `load` plugin: Configuration Properties
 
  - `url` (String)
 
@@ -439,7 +474,7 @@ Load-tests are based on the NPM library [loadtest](https://www.npmjs.com/package
     *how often to poll if `pollForMs` is specified*
 
 
-#### load: Result Properties
+#### `load` plugin: Result Properties
 
  - `details.errorCodes` (Number)
 
@@ -475,7 +510,7 @@ Load-tests are based on the NPM library [loadtest](https://www.npmjs.com/package
 
 Connects to an MQTT broker and tries to publish a message.
 
-#### mqtt-publish: Configuration Properties
+#### `mqtt-publish` plugin: Configuration Properties
 
 - `topic` (String)
 - `message` (String)
@@ -485,9 +520,9 @@ Connects to an MQTT broker and tries to publish a message.
 ---
 ### `output` - generate diagnostic result
 
-Generates a message based on the value expression. Never fails.
+Generates a message based on the `value` property. Never fails, but may error if a property expression produces an error.
 
-#### output: Configuration Properties
+#### `output` plugin: Configuration Properties
 
 - `value` (any) - what to output
 - `label` (String, default `"output"`) - an informative prefix
@@ -498,7 +533,7 @@ Generates a message based on the value expression. Never fails.
 
 Make a request to a given URL, and store response information in the result (under the `response` key).
 
-#### request: Configuration Properties:
+#### `request` plugin: Configuration Properties:
 
 - `url` (String)
 
@@ -537,7 +572,7 @@ Make a request to a given URL, and store response information in the result (und
    *the HTTP verb to use*
 
 
-#### request: Result Properties:
+#### `request` plugin: Result Properties
 
 - `response.cookies` (Object)
 
@@ -567,22 +602,22 @@ Make a request to a given URL, and store response information in the result (und
 ---
 ### `suite` - define a suite of tests
 
-Can be used to create sequences and hierarchies of test items.
+Used to create sequences and hierarchies of test items.
 Any context applied to a suite will be applied to all children.
 
-#### suite: Configuration Properties
+#### `suite` plugin: Configuration Properties
 
 - `items` (Array)
 
   *an array of nested test items (which may in turn also be suites)* (pre)
 
-#### suite: Context Properties
+#### `suite` plugin: Context Properties
 
 - `skipAfter` (String, default: `"ERROR"`) if the given outcome or worse is encountered during suite processing, any remaining items are skipped
 
 Items in a suite are run in sequence, but should be considered separate tests, not affecting each other.
 
-#### suite: Result Properties
+#### `suite` plugin: Result Properties
 
 Suites generate a compound result, using the `nested` field for their children results.
 The suite _outcome_ is always the worst outcome produced by any child.
