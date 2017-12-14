@@ -104,7 +104,7 @@ module.exports = function( state, options = {} ) {
 
    function collectReporters( reporterNames ) {
       const availableReporters = {
-         junit: require( '../reporters/junit' ),
+         csv: require( '../reporters/csv' ),
          html: require( '../reporters/html' ),
          stdout: require( '../reporters/stdout' )
       };
