@@ -8,6 +8,7 @@ module.exports = report;
 
 const fs = require( 'fs' );
 const path = require( 'path' );
+const sanitize = require( 'sanitize-filename' );
 const { outcomes } = require( '../outcomes.js' );
 
 const reportsPath = 'reports';
@@ -18,16 +19,24 @@ function report( allResults ) {
    if( !fs.existsSync( reportsPath ) ) {
       fs.mkdirSync( reportsPath );
    }
+   if( !fs.existsSync( resultsPath ) ) {
+      fs.mkdirSync( resultsPath );
+   }
    if( !fs.existsSync( csvDir ) ) {
       fs.mkdirSync( csvDir );
    }
+   const summarySuite = [];
    allResults.forEach( result => {
-      const testsuites = buildReport( result );
-      testsuites.forEach( summarizeSuite );
-      fs.writeFileSync( path.join( csvDir, `${result.subject.name}.csv` ), asCsv( testsuites ) );
+      const testSuites = buildReport( result );
+      summarySuite.push( ...testSuites );
+      testSuites.forEach( summarizeSuite );
+      const sanitizedFileName = sanitize(result.subject.name);
+      fs.writeFileSync( path.join( csvDir, `${sanitizedFileName}.csv` ), asCsv( testSuites ) );
    } );
-   summarizeCsv( csvDir );
+   fs.writeFileSync( path.join( csvDir, 'summary.csv' ), asCsv( summarySuite ) );
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 function asCsv( suiteResults ) {
    let failure = 0;
@@ -41,22 +50,6 @@ function asCsv( suiteResults ) {
       success += suite.attrs.success;
    } );
    return `failures, successes, skipped, errors\n${failure}, ${success}, ${skipped}, ${error}`;
-}
-
-// summarizes all existing csv into one for better overview in jenkins project homepage.
-function summarizeCsv( dir, output = 'summary.csv' ) {
-   const results = fs.readdirSync( dir ).reduce( ( sum, file ) => {
-      if( path.basename( file ) === output ) { return sum; }
-      else if( path.extname( file ) === '.csv' ) {
-         const content = fs.readFileSync( path.join( dir, file ), 'utf-8' ).split( '\n' )[ 1 ];
-         return sum.map( ( res, i ) => {
-            return res + Number( content.split( ',' )[ i ] );
-         } );
-      }
-      return sum;
-   }, [ 0, 0, 0, 0 ] );
-   // The jenkins plot plugin expects the headline to be defined in the same fashion as below.
-   fs.writeFileSync( path.join( dir, output ), `failures, successes, skipped, errors\n${results}` );
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
