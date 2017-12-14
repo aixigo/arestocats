@@ -10,7 +10,7 @@ With _aRESTocats_ you can
 
  - tests REST APIs
  - observe the result stream while tests are still running
- - export results as interactive HTML, in JUnit format, and/or to a human-friendly standard out format
+ - export results as interactive HTML, in csv format (compatible with the Jenkins-Plot-Plugin), and/or to a human-friendly standard out format
  - declare tests using simple, composable JSON blocks
  - use builtin plugins:
    HTTP request, delay, expectation checks, OAuth2/JWT login, MQTT, basic load tests, debugging output
@@ -172,7 +172,7 @@ This is useful during development, where you will probably test an API running o
 
  - `--cli` to enable immediate command-line execution (automatically enabled if REST service is not used),
 
- - `--cli.reporters=...` comma-separated list of reporters for CLI execution. Available: `stdout`, `junit`, `html` (default: `stdout`),
+ - `--cli.reporters=...` comma-separated list of reporters for CLI execution. Available: `stdout`, `csv`, `html` (default: `stdout`),
 
  - `--cli.wait=<seconds>` how long to wait for launching the initial tests,
 
