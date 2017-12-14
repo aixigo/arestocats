@@ -4,6 +4,10 @@
   "description": "Run declarative integration tests against your REST services",
   "author": "aixigo AG",
   "license": "MIT",
+  "repository" : {
+     "type" : "git",
+     "url" : "https://github.com/aixigo/arestocats.git"
+  },
   "main": "index.js",
   "bin": "bin/arestocats",
   "scripts": {
