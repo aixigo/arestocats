@@ -1,4 +1,8 @@
-#!/usr/bin/env node --harmony_object_rest_spread
+#!/bin/sh
+":" //# comment; exec /usr/bin/env node --harmony_object_rest_spread "$0" "$@"
+
+// The above is a hack to safely pass command line options to node on linux
+// Details: http://sambal.org/2014/02/passing-options-node-shebang-line/
 
 if( process.version < 'v8' ) {
    // eslint-disable-next-line no-console

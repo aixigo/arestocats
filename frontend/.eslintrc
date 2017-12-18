@@ -1,6 +1,11 @@
 {
    "extends": "laxarjs",
    "plugins": [ "html", "vue" ],
+   "overrides": [
+      {
+         "excludedFiles": "bin/arestocats"
+      }
+   ],
    "rules": {
       "no-shadow": "warn"
    }
