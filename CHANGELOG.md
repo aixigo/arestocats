@@ -2,6 +2,9 @@
 
 ## Last Changes
 
+
+## v0.3.2
+
 - [#7](https://github.com/aixigo/arestocats/issues/7): fixed linux CLI invocation
 
 
