@@ -10,6 +10,7 @@
 
 ## v0.3.1
 
+- [#6](https://github.com/aixigo/arestocats/pull/6): Implemented metrics-plugin.
 - [#5](https://github.com/aixigo/arestocats/issues/5): fixed frontend asset packaging
 
 

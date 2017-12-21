@@ -11,8 +11,8 @@
  */
 
 const express = require( 'express' );
-const serveStatic = require('serve-static');
-const bodyParser = require('body-parser');
+const serveStatic = require( 'serve-static' );
+const bodyParser = require( 'body-parser' );
 const path = require( 'path' );
 const proxy = require( 'http-proxy-middleware' );
 
@@ -23,7 +23,7 @@ const pkg = require( '../../package.json' );
 const { print } = require( '../util/general-helpers' );
 const { recordStreamWriter, HEADERS, CONTENT_TYPES } = require( '../util/http-helpers' );
 const { outcomes } = require( '../outcomes' );
-const { RESULT, PROGRESS, META } = require( '../notification-types' );
+const { RESULT, PROGRESS, META, METRIC } = require( '../notification-types' );
 const createLoader = require( './loader' );
 const createRunner = require( './runner' );
 
@@ -75,6 +75,7 @@ module.exports = function( state, options = {} ) {
       handleResource( hrefs.jobs.jobPattern(), getJob );
       handleResource( hrefs.jobs.itemsPattern(), getJobItems );
       app.get( hrefs.jobs.resultsPattern(), getJobResults );
+      app.get( hrefs.jobs.metricsPattern(), getJobMetrics );
       app.get( hrefs.jobs.progressPattern(), getJobProgress );
       app.post( hrefs.jobs.cancelPattern(), cancelJob );
 
@@ -210,6 +211,36 @@ module.exports = function( state, options = {} ) {
 
       ///////////////////////////////////////////////////////////////////////////////////////////////////////
 
+      function getJobMetrics( request, response ) {
+         const job = matchingJob( request.params.id );
+         if( !job ){
+            send404( response );
+            return;
+         }
+
+         const stream = recordStreamWriter( request, response, {
+            headers: { [ HEADERS.CACHE_CONTROL ]: 'no-cache' }
+         } );
+
+         job.metrics().forEach( stream.write );
+         if( job.meta().finished ){
+            endResponse();
+            return;
+         }
+
+         job.subscribe( METRIC, stream.write );
+         job.subscribe( META, ({ finished }) => {
+            if( finished ) { endResponse(); }
+         } );
+
+         function endResponse() {
+            stream.end();
+            printRunSummary( request.body, job.metrics() );
+         }
+      }
+
+      ///////////////////////////////////////////////////////////////////////////////////////////////////////
+
       function getJobProgress( request, response ) {
          const job = matchingJob( request.params.id );
          if( !job ) {
@@ -250,6 +281,7 @@ module.exports = function( state, options = {} ) {
                self: { href: hrefs.jobs.job( jobApi ) },
                progress: { href: hrefs.jobs.progress( jobApi ) },
                results: { href: hrefs.jobs.results( jobApi ) },
+               metrics: { href: hrefs.jobs.metrics( jobApi ) },
                items: { href: hrefs.jobs.items( jobApi ) },
                cancel: { href: hrefs.jobs.cancel( jobApi ) }
             },
@@ -278,6 +310,7 @@ module.exports = function( state, options = {} ) {
       const jobItemsPattern = `${jobBaseHref}/:id/items`;
       const jobProgressPattern = `${jobBaseHref}/:id/progress`;
       const jobResultsPattern = `${jobBaseHref}/:id/results`;
+      const jobMetricsPattern = `${jobBaseHref}/:id/metrics`;
 
       return {
          entry: () => rootHref,
@@ -301,7 +334,9 @@ module.exports = function( state, options = {} ) {
             cancel: jobApi => jobCancelPattern.replace( ':id', jobApi.meta().id ),
             cancelPattern: () => jobCancelPattern,
             results: jobApi => jobResultsPattern.replace( ':id', jobApi.meta().id ),
-            resultsPattern: () => jobResultsPattern
+            resultsPattern: () => jobResultsPattern,
+            metrics: jobApi => jobMetricsPattern.replace( ':id', jobApi.meta().id ),
+            metricsPattern: () => jobMetricsPattern
          }
       };
    }
@@ -351,6 +386,7 @@ module.exports = function( state, options = {} ) {
       return path.resolve( packageRoot, packagePath );
    }
 
+
    //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
    function printRunSummary( item, runResults ) {
@@ -362,5 +398,4 @@ module.exports = function( state, options = {} ) {
       const labelString = outcomes.map( _ => _.toLowerCase() ).join( '/' );
       print( `Run complete: ${countString} (${labelString})` );
    }
-
 };

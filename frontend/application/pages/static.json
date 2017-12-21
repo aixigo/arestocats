@@ -13,6 +13,14 @@
                   "resource": "items"
                }
             }
+         },
+         {
+            "widget": "static-metrics-activity",
+            "features": {
+               "staticMetrics": {
+                  "resource": "metrics"
+               }
+            }
          }
       ],
 
@@ -43,6 +51,17 @@
                },
                "selectionResult": {
                   "resource": "selectedItemResult"
+               }
+            }
+         },
+         {
+            "widget": "metric-inspector-widget",
+            "features": {
+               "metrics": {
+                  "resource": "metrics"
+               },
+               "job": {
+                  "resource": "currentJob"
                }
             }
          }
