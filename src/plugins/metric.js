@@ -43,7 +43,13 @@ module.exports = {
       metricsPublish( jobState, item );
       return Promise.resolve( {
          outcome: 'SUCCESS',
-         message: `wrote ${item.name} to file.`
+         message: `The metric ${item.name} of type ${item.metricType}` +
+                     ` has value ${item.metricData[ item.label ]}.`,
+         name: item.name,
+         metricType: item.metricType,
+         label: item.label,
+         value: item.metricData[ item.label ],
+         metricData: item.metricData
       } );
    }
 };
