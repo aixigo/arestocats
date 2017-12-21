@@ -25,7 +25,7 @@
                   <td>{{ metric.name }}</td>
                   <td>{{ metric.label }}</td>
                   <td>{{ metric.metricType }}</td>
-                  <td>{{ parseFloat( metric.value ).toFixed(2) }}</td>
+                  <td>{{ parseFloat( metric.value ).toFixed( 2 ) }}</td>
                </tr>
             </template>
          </tbody>

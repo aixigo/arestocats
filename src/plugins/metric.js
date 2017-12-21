@@ -44,7 +44,7 @@ module.exports = {
       return Promise.resolve( {
          outcome: 'SUCCESS',
          message: `The metric ${item.name} of type ${item.metricType}` +
-                     ` has value ${item.metricData[ item.label ]}.`,
+                     ` has value ${parseFloat( item.metricData[ item.label ] ).toFixed( 2 )}.`,
          name: item.name,
          metricType: item.metricType,
          label: item.label,
