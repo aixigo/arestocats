@@ -17,31 +17,25 @@ function metricsPublish( jobState, item ) {
       metricType,
       metricData
    } = item;
+   const newMetrics = {
+      name,
+      color,
+      id: item.$id,
+      label,
+      metricType,
+      value: metricData[ label ]
+   };
    const metrics = jobState.metrics();
    const index = metricsIndex( metrics, 'category', category );
    if( index >= 0 ) {
       const categoryMetrics = metrics[ index ];
-      categoryMetrics.metrics.push( {
-         name,
-         color,
-         id: item.$id,
-         label,
-         metricType,
-         value: metricData[ label ]
-      } );
+      categoryMetrics.metrics.push( newMetrics );
       jobState.notify( METRIC, categoryMetrics );
    }
    else {
       const categoryMetrics = {
          category,
-         metrics: [ {
-            name,
-            color,
-            id: item.$id,
-            label,
-            metricType,
-            value: metricData[ label ]
-         } ]
+         metrics: [ newMetrics ]
       };
       jobState.notify( METRIC, categoryMetrics );
    }

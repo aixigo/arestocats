@@ -2,9 +2,10 @@
 
 ## Last Changes
 
+- [#8](https://github.com/aixigo/arestocats/pull/8): Implemented metrics-plugin.
+
 ## v0.3.1
 
-- [#8](https://github.com/aixigo/arestocats/pull/6): Implemented metrics-plugin.
 - [#5](https://github.com/aixigo/arestocats/issues/5): fixed frontend asset packaging
 
 ## v0.3.0
