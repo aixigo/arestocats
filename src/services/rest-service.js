@@ -29,7 +29,7 @@ const createRunner = require( './runner' );
 
 module.exports = function( state, options = {} ) {
    const {
-      port = 13000,
+      port = 3000,
       developmentProxy = false,
       developmentProxyTargetPort = 8080,
       scenarios,

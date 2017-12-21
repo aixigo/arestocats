@@ -10,22 +10,22 @@ const { metricsPublish } = require( '../util/metric-helpers' );
 module.exports = {
 
    pre( context, item ) {
-      const description = `Metric for ${propText( item, 'name' )} of type ${propText( item, 'metricType')}`;
-      return Promise.resolve({
+      const description = `Metric for ${propText( item, 'name' )} of type ${propText( item, 'metricType' )}`;
+      return Promise.resolve( {
          description,
          context,
          ...item
-      });
+      } );
    },
 
-   runProps: () => ({
+   runProps: () => ( {
       name: '',
       category: 'default',
       color: 'orange',
       label: '',
       metricType: 'GAUGE',
       metricData: null
-   }),
+   } ),
 
    /**
     * @param {Object} item

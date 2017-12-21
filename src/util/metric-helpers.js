@@ -20,26 +20,30 @@ function metricsPublish( jobState, item ) {
    const metrics = jobState.metrics();
    const index = metricsIndex( metrics, 'category', category );
    if( index >= 0 ) {
-      const metric = metrics[ index ];
-      metric.names.push( name );
-      metric.colors.push( color);
-      metric.id.push( item.$id );
-      metric.labels.push( label );
-      metric.metricTypes.push( metricType );
-      metric.values.push( metricData[ label ] );
-      jobState.notify( METRIC, metric );
+      const categoryMetrics = metrics[ index ];
+      categoryMetrics.metrics.push( {
+         name,
+         color,
+         id: item.$id,
+         label,
+         metricType,
+         value: metricData[ label ]
+      } );
+      jobState.notify( METRIC, categoryMetrics );
    }
    else {
-      const metric = {
-         names: [ name ],
+      const categoryMetrics = {
          category,
-         metricTypes: [ metricType ],
-         id: [ item.$id ],
-         colors: [ color ],
-         labels: [ label ],
-         values: [ metricData[ label ] ]
+         metrics: [ {
+            name,
+            color,
+            id: item.$id,
+            label,
+            metricType,
+            value: metricData[ label ]
+         } ]
       };
-      jobState.notify( METRIC, metric );
+      jobState.notify( METRIC, categoryMetrics );
    }
 }
 

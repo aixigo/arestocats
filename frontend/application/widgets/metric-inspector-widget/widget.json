@@ -1,0 +1,30 @@
+{
+   "name": "metric-inspector-widget",
+   "description": "display measured metrics",
+
+   "integration": {
+      "technology": "vue",
+      "type": "widget"
+   },
+
+   "features": {
+      "$schema": "http://json-schema.org/draft-04/schema#",
+      "type": "object",
+      "properties": {
+         "job": {
+            "resource": {
+               "type": "string",
+               "format": "topic",
+               "axRole": "inlet"
+            }
+         },
+         "metrics": {
+            "resource": {
+               "type": "string",
+               "format": "topic",
+               "axRole": "inlet"
+            }
+         }
+      }
+   }
+}

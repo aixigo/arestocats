@@ -75,6 +75,17 @@
                   "action": "finishJob"
                }
             }
+         },
+         {
+            "widget": "metrics-activity",
+            "features": {
+               "job": {
+                  "resource": "runnerJob"
+               },
+               "metrics": {
+                  "resource": "metrics"
+               }
+            }
          }
       ],
 
@@ -140,6 +151,17 @@
                },
                "selectionResult": {
                   "resource": "selectedItemResult"
+               }
+            }
+         },
+         {
+            "widget": "metric-inspector-widget",
+            "features": {
+               "job": {
+                  "resource": "latestJob"
+               },
+               "metrics": {
+                  "resource": "metrics"
                }
             }
          }

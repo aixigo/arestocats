@@ -15,7 +15,7 @@ require( 'isomorphic-fetch' );
 const createLoader = require( './loader' );
 const createRunner = require( './runner' );
 
-const { generateOutputForJenkins } = require( '../reporters/metric.js' );
+const { generateJSON } = require( '../reporters/metric.js' );
 const { delay } = require( '../util/async-helpers' );
 const { print } = require( '../util/general-helpers' );
 const { SUCCESS, worstOf } = require( '../outcomes' );
@@ -52,7 +52,7 @@ module.exports = function( state, options = {} ) {
          return run( job )
             .then( success => {
                const allResultTrees = resultTrees( job.items(), job.results() );
-               generateOutputForJenkins( job.metrics(), reporters.includes( 'html' ) );
+               generateJSON( job.metrics(), reporters.includes( 'html' ) );
                reporterList.forEach( report => {
                   report( allResultTrees, job.items(), job.results() );
                } );
@@ -82,7 +82,7 @@ module.exports = function( state, options = {} ) {
             .then( follower( 'metrics' ) )
             .then( _ => _.json() )
             .then( metrics => {
-               generateOutputForJenkins( metrics, reporters.includes( 'html' ) );
+               generateJSON( metrics, reporters.includes( 'html' ) );
             } );
 
          return Promise.all( [ resultsPromise, metricsPromise ] )

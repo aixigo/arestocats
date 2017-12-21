@@ -15,7 +15,7 @@ module.exports = {
       {
          type: 'metric',
          description: 'response time for getUser',
-         bane: 'getUserMetric',
+         name: 'getUserMetric',
          label: 'durationMs',
          metricType: 'GAUGE',
          category: 'api-get-successful',

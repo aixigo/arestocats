@@ -10,9 +10,9 @@ const sanitize = require( 'sanitize-filename' );
 
 const { htmlPath, metricsPath, assertPathExists } = require( './report-paths' );
 
-module.exports = { generateOutputForJenkins };
+module.exports = { generateJSON };
 
-function generateOutputForJenkins( metrics, htmlFrontendFlag ) {
+function generateJSON( metrics, htmlFrontendFlag ) {
    assertPathExists( metricsPath );
    metrics.forEach( metric => {
       const sanitizedFileName = sanitize( metric.category );
