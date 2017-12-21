@@ -14,7 +14,7 @@ const clone = require( 'clone' );
 const debug = require( 'debug' )( 'arestocats:state' );
 
 const { isEmpty } = require( '../util/general-helpers' );
-const { RESULT, PROGRESS, META, CANCEL } = require( '../notification-types' );
+const { RESULT, PROGRESS, META, CANCEL, METRIC } = require( '../notification-types' );
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -322,6 +322,7 @@ function createJobData( items, id, created ) {
       meta: { id, created, started: created, finished: null, outcome: null },
       progress: {},
       results: [],
+      metrics: [],
       subscribers: [],
       subscriberSequence: createSequence()
    };
@@ -330,7 +331,7 @@ function createJobData( items, id, created ) {
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 function provideJobApi( jobData ) {
-   const { subscribers, items, results, progress, meta, subscriberSequence } = jobData;
+   const { subscribers, items, results, progress, metrics, meta, subscriberSequence } = jobData;
    const api = {
       subscribe,
       notify,
@@ -338,6 +339,7 @@ function provideJobApi( jobData ) {
       meta: () => clone( meta ),
       items: () => clone( items ),
       results: () => clone( results ),
+      metrics: () => clone( metrics ),
       progress: () => clone( progress )
    };
    return api;
@@ -365,7 +367,8 @@ function provideJobApi( jobData ) {
          [ CANCEL ]: () => {},
          [ META ]: handleMeta,
          [ RESULT ]: handleResult,
-         [ PROGRESS ]: handleProgress
+         [ PROGRESS ]: handleProgress,
+         [ METRIC ]: handleMetric
       };
       if( !( type in handlers ) ) {
          debug( `UNEXPECTED: unknown notification type ${type}` );
@@ -406,6 +409,12 @@ function provideJobApi( jobData ) {
    function handleResult( result ) {
       delete progress[ result.$id ];
       results.push( result );
+   }
+
+   //////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+   function handleMetric( metric ) {
+      metrics.push( metric );
    }
 
    //////////////////////////////////////////////////////////////////////////////////////////////////////////

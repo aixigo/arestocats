@@ -29,7 +29,10 @@ const notificationTypes = {
    PROGRESS: 'PROGRESS',
 
    /** Notification contains information on overall state change of a test job (end time, result status) */
-   META: 'META'
+   META: 'META',
+
+   /** Notification contains information on metrics of a single test item execution */
+   METRIC: 'METRIC'
 };
 
 module.exports = notificationTypes;

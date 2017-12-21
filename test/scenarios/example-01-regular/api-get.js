@@ -13,6 +13,16 @@ module.exports = {
          ':url': '`${baseUrl}/posts/1`'
       },
       {
+         type: 'metric',
+         description: 'response time for getUser',
+         name: 'getUserMetric',
+         label: 'durationMs',
+         metricType: 'GAUGE',
+         category: 'api-get-successful',
+         color: 'blue',
+         ':metricData': '$results.getUser'
+      },
+      {
          type: 'delay',
          milliseconds: 500
       },
