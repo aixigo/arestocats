@@ -20,7 +20,7 @@
          </thead>
          <tbody>
             <template v-for="categories in metrics">
-               <tr v-for="(metric, index) in categories.metrics">
+               <tr v-for="metric in categories.metrics">
                   <td>{{ categories.category }}</td>
                   <td>{{ metric.name }}</td>
                   <td>{{ metric.label }}</td>
