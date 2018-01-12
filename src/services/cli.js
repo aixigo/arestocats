@@ -83,7 +83,7 @@ module.exports = function( state, options = {} ) {
             .then( _ => _.json() )
             .then( metrics => {
                generateJSON( metrics, reporters.includes( 'html' ) );
-            } );
+            }, () => {} );
 
          return Promise.all( [ resultsPromise, metricsPromise ] )
             .then( ( [ results ] ) => {
