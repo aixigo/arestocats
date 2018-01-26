@@ -77,13 +77,15 @@ module.exports = function( state, options = {} ) {
             .then( follower( 'results' ) )
             .then( _ => _.json() );
 
-         const metricsPromise = remotePromise
+         const metricsPromise = Promise.all( [ remotePromise, resultsPromise ] )
+            .then( ( [ remoteProm ] ) => remoteProm )
             .then( follower() )
             .then( follower( 'metrics' ) )
             .then( _ => _.json() )
+            .then( null, () => [] )
             .then( metrics => {
                generateJSON( metrics, reporters.includes( 'html' ) );
-            }, () => {} );
+            } );
 
          return Promise.all( [ resultsPromise, metricsPromise ] )
             .then( ( [ results ] ) => {

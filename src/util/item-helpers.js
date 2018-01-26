@@ -25,6 +25,9 @@ function expect( name, actual ) {
          return actual ? [] : [ `expected ${name} to be truthy but got (${s(actual)})` ];
       },
       toDeepEqual( expected ) {
+         if( expected === expect.TRUTHY ) {
+            return api.toBeTruthy();
+         }
          const isEqual = ( isPrimitive( expected ) && isPrimitive( actual ) ) ?
             // eslint-disable-next-line eqeqeq
             ( expected == actual ) :

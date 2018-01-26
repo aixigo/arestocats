@@ -2,6 +2,7 @@
 
 ## Last Changes
 
+- [#14](https://github.com/aixigo/arestocats/pull/14): Fixes for issues (#10), (#11), (#13).
 - [#11](https://github.com/aixigo/arestocats/issue/11): Fixed Promise rejection when metrics-plugin is not configured.
 - [#8](https://github.com/aixigo/arestocats/pull/8): Implemented metrics-plugin.
 
