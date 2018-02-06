@@ -162,7 +162,7 @@ This is useful during development, where you will probably test an API running o
 
  - `--service` to run the REST service (see below),
 
- - `--service.port=...` to use a non-default port for the web-UI (default: `3000`),
+ - `--service.port=...` to use a non-default port for the web-UI (default: `3000`). Note that this option is mutually exclusive with `--service`. You should only use one of these flags,
 
  - `--service.systemUnderTestVersionUrl=...` to specify where the frontend will look for the version resource of the system under test,
 
