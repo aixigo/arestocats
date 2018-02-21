@@ -2,6 +2,9 @@
 
 ## Last Changes
 
+
+## v0.3.3
+
 - [#16](https://github.com/aixigo/arestocats/pull/16): Updated mqtt dependency
 - [#17](https://github.com/aixigo/arestocats/pull/17): Improved load error reporting
 - [#14](https://github.com/aixigo/arestocats/pull/14): Fixes for issues (#10), (#11), (#13).
