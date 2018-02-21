@@ -63,7 +63,7 @@ module.exports = {
     * @param {Object} [item.headers={}]
     *    additional request headers to send. If no `Accept` header is given, it is automatically set to
     *   'application/hal+json'
-    * @param {String} [item.jsonBody='']
+    * @param {Object} [item.jsonBody=undefined]
     *    an object to be converted to a JSON request entity, usually as part of POST or PUT requests.
     *    If traversing a chain of relations, the body is only used for the *last* request
     * @param {String} [item.method='GET']
@@ -92,13 +92,11 @@ module.exports = {
          url
       } = item;
 
-      const contentType = item.jsonBody ? 'application/json' : null;
+      const contentType = item.jsonBody != null ? 'application/json' : null;
       const cookiesList =
          composeRequestCookies( url, item.cookies || runner.interpret( context, context.cookiesRef ) || {} );
       const headers = composeRequestHeaders( item.headers, 'application/hal+json', contentType, cookiesList );
-      const body = item.jsonBody ?
-         JSON.stringify( item.jsonBody ) :
-         undefined;
+      const body = item.jsonBody;
 
       const client = hal.create( { headers, fetchInit: { headers, credentials: 'include' } } );
       const options = { method, redirect, headers, ...( body ? { body } : {} ) };

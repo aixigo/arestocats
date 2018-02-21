@@ -2,6 +2,8 @@
 
 ## Last Changes
 
+- [#18](https://github.com/aixigo/arestocats/pull/18): hal plugin: avoid double-encoding
+
 
 ## v0.3.3
 
