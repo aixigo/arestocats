@@ -64,6 +64,16 @@ function collectScenarios( args, src ) {
 
    return entries
       .map( entry => path.resolve( process.cwd(), `${src}/${entry}` ) )
+      .filter( entry => {
+         try {
+            require.resolve( entry );
+            return true;
+         }
+         catch( e ) {
+            // folder without index.js, probably a shared library of test items
+            return false;
+         }
+      } )
       .map( entry => {
          if( !fs.existsSync( entry ) ) {
             print( `The scenario "${entry}" could not be found. Exiting.` );

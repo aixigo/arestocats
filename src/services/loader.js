@@ -11,20 +11,11 @@
  */
 
 const path = require( 'path' );
+const { printError } = require( '../util/general-helpers' );
 const { itemError, mergeContext, extractProps } = require( '../util/item-helpers' );
+const { requireResolveAsPromise } = require( '../util/resolve-helpers' );
 const createPluginLoader = require( './plugin-loader' );
 
-function requireResolvePromise( request ) {
-   return new Promise( (resolve, reject) => {
-      try {
-         const absPath = require.resolve( request );
-         resolve( absPath );
-      }
-      catch( e ) {
-         reject( e );
-      }
-   } );
-}
 
 const SKIP = {};
 
@@ -35,7 +26,10 @@ module.exports = (options = {}) => {
    const self = {
       loadScenarios( context, requests ) {
          const loadPromises = requests
-            .map( _ => self.load( context, _ ).catch( () => SKIP ) );
+            .map( _ => self.load( context, _ ).catch( e => {
+               printError( `ERROR: Skipping load of scenario ${_}`, e );
+               return SKIP;
+            } ) );
          const preprocessPromises = loadPromises
             .map( _ => _.then( root => root === SKIP ? SKIP : self.pre( root.context, root.item ) ) );
          return Promise.all( preprocessPromises )
@@ -43,7 +37,7 @@ module.exports = (options = {}) => {
       },
       load( context, relativeRequest ) {
          const absRequest = path.resolve( context.$baseDir || process.cwd(), relativeRequest );
-         return requireResolvePromise( absRequest )
+         return requireResolveAsPromise( absRequest )
             .then( $fileName => {
                const $baseDir = path.dirname( $fileName );
                const item = require( absRequest );

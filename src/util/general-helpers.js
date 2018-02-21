@@ -7,6 +7,7 @@
 module.exports = {
    isEmpty,
    print,
+   printError,
    tabulate,
    zip
 };
@@ -16,6 +17,13 @@ module.exports = {
 function print( str ) {
    // eslint-disable-next-line
    console.log( `| ${str}`.split( '\n' ).join( '\n| ' ) );
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+function printError( str, e ) {
+   // eslint-disable-next-line
+   console.error( `| ${str}`.split( '\n' ).join( '\n| ' ), e );
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
