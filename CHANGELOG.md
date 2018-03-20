@@ -2,6 +2,9 @@
 
 ## Last Changes
 
+
+## v0.3.5
+
 - [#9](https://github.com/aixigo/arestocats/issue/9): Package static webfrontend
 
 
