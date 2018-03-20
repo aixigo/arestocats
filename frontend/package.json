@@ -14,8 +14,8 @@
     "eslint": "eslint --ext=.js,.vue,.html application *.{js,html}",
     "optimize": "webpack -p --progress --env.production",
     "optimize-static": "webpack -p --progress --env.production --env.static",
-    "prepare": "webpack -p --progress --env.production",
-    "create-jenkins-frontend": "npm run dist-static",
+    "prepare": "webpack -p --progress --env.production && npm run create-static-webfrontend",
+    "create-static-webfrontend": "npm run dist-static",
     "start": "webpack-dev-server --inline --hot",
     "yo": "yo"
   },
