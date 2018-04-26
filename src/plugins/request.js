@@ -130,15 +130,14 @@ module.exports = {
       function makeRequest() {
          return fetch( url, options )
             .then( response => processResponse( item, response, options ), err => {
-               // Treat network errors as regular FAILURE (since e.g. the required host is not up)
-               const failures = [ `${err} (${method} ${url})` ];
-               return { outcome: 'FAILURE', failures };
-            } )
-            .then( result => {
-               if( pollForMs > Date.now() - startMs && result.outcome !== 'SUCCESS' ) {
+               if( pollForMs > Date.now() - startMs ) {
                   return delay( pollDelayMs ).then( makeRequest );
                }
-               return result;
+               else {
+                  // Treat network errors as regular FAILURE (since e.g. the required host is not up)
+                  const failures = [ `${err} (${method} ${url})` ];
+                  return { outcome: 'FAILURE', failures };
+               }
             } );
       }
    }
