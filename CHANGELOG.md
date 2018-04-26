@@ -2,6 +2,8 @@
 
 ## Last Changes
 
+- [#19](https://github.com/aixigo/arestocats/issue/19): Fixed request.js polling stopping falsely, when first attempt fails.
+
 
 ## v0.3.5
 
