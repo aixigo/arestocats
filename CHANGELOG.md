@@ -3,6 +3,11 @@
 ## Last Changes
 
 
+## v0.3.6
+
+- [#21](https://github.com/aixigo/arestocats/issue/21): Addressed NPM audit warnings
+
+
 ## v0.3.5
 
 - [#9](https://github.com/aixigo/arestocats/issue/9): Package static webfrontend
