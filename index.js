@@ -43,7 +43,9 @@ function main() {
       cli.run( context )
          .then( success => {
             if( !options.service ) {
-               process.exit( success ? 0 : 1 );
+               // If test execution fails, then node will return with 1.
+               // If test execution is successful but some tests failed, 2 is returned.
+               process.exit( success ? 0 : 2 );
             }
          } );
    }
