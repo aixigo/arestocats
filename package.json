@@ -1,6 +1,6 @@
 {
   "name": "arestocats",
-  "version": "0.3.6",
+  "version": "0.4.0",
   "description": "Run declarative integration tests against your REST services",
   "author": "aixigo AG",
   "license": "MIT",

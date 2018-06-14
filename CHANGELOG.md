@@ -2,6 +2,9 @@
 
 ## Last Changes
 
+
+## v0.4.0
+
 - [#23](https://github.com/aixigo/arestocats/issue/23): Introduced new return code for failed tests.
 
 
