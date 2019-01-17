@@ -6,7 +6,7 @@
 
 import { assert } from 'laxar';
 import { collectIndex, isEmpty, zip } from 'lib/util/functional';
-import BitSet from 'bitset.js';
+import BitSet from 'bitset';
 
 const noOp = () => {};
 const newObject = () => ({});

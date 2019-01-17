@@ -7,8 +7,7 @@
          <i class="fa fa-thermometer-three-quarters" aria-hidden="true"></i>
          Metrics
       </h3>
-      <table v-i="metrics.length"
-             class="table table-striped">
+      <table class="table table-striped">
          <thead class v-if="metrics.length > 0">
             <tr>
                <th><h3 class="fa ii-context-toggle">Name</h3></th>
@@ -19,7 +18,7 @@
          </thead>
          <tbody>
             <template v-for="categories in metrics">
-               <tr>
+               <tr :key="`category-${categories.category}`">
                   <td colspan="4">
                      <h5 role="button"
                          tabindex="0"
@@ -31,7 +30,8 @@
                      </h5>
                   </td>
                </tr>
-               <tr v-if="categoryVisible( categories.category )" v-for="metric in categories.metrics">
+               <tr v-for="metric in ( categoryVisible( categories.category ) ? categories.metrics : [] )"
+                  :key="`metric-${metric.name}`">
                   <td>{{ metric.name }}</td>
                   <td>{{ metric.label }}</td>
                   <td>{{ metric.metricType }}</td>

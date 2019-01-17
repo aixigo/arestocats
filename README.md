@@ -648,11 +648,10 @@ To develop the frontend itself, you will want to run the Webpack development ser
 > ( cd frontend ; npm start ) &
 > # then, run the REST API and a proxy for the frontend:
 > npm start -- \
-   --service \
    --service.developmentProxy
 ```
 
-
+Now, the development version of the frontend can be accessed at [http://localhost:8080/dev/](http://localhost:8080/dev/debug.html), with support for hot-reloading.
 
 You may also specify individual scenarios, or the `context` options, just like you would for command-line execution.
 

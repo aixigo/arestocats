@@ -2,6 +2,8 @@
 
 ## Last Changes
 
+- [#25](https://github.com/aixigo/arestocats/issue/25): Updated dependencies, addressing latest NPM audits.
+
 
 ## v0.4.0
 

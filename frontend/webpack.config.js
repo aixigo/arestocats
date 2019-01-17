@@ -7,9 +7,11 @@
 /* env node */
 const path = require( 'path' );
 const webpack = require( 'webpack' );
-const ExtractTextPlugin = require( 'extract-text-webpack-plugin' );
+const MiniCssExtractPlugin = require( 'mini-css-extract-plugin' );
+const VueLoaderPlugin = require( 'vue-loader/lib/plugin' );
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 module.exports = ( env = {} ) => {
 
@@ -21,17 +23,21 @@ module.exports = ( env = {} ) => {
          'init': env.static ? './init-static.js' : './init.js'
       },
 
+      mode: env.production ? 'production' : 'development',
       output: {
          path: path.resolve( __dirname, outputPath ),
-         publicPath: outputPath,
+         publicPath: env.production ? 'dist' : 'build',
          filename: env.production ? '[name].bundle.min.js' : '[name].bundle.js'
       },
 
       plugins: [
-         ...( env.production ?
-            [ new ExtractTextPlugin( { filename: '[name].bundle.css' } ) ] :
-            [] ),
-         new webpack.optimize.ModuleConcatenationPlugin()
+         new VueLoaderPlugin(),
+         ...( env.production ? [
+            new MiniCssExtractPlugin( {
+               filename: env.production ? '[name].bundle.min.css' : '[name].bundle.css'
+            } ),
+            new webpack.optimize.ModuleConcatenationPlugin()
+         ] : [] )
       ],
 
       resolve: {
@@ -62,7 +68,7 @@ module.exports = ( env = {} ) => {
                test: /\.(gif|jpe?g|png|ttf|woff2?|svg|eot|otf)(\?.*)?$/,
                loader: 'file-loader',
                options: {
-                  name: env.production ? 'assets/[name]-[sha1:hash:8].[ext]' : 'assets/[path]-[name].[ext]'
+                  name: `${outputPath}assets/[name].[ext]`
                }
             },
             {
@@ -70,12 +76,8 @@ module.exports = ( env = {} ) => {
                // (extract-loader extracts the CSS string from the JS module returned by the css-loader)
                test: /\.(css|s[ac]ss)$/,
                loader: env.production ?
-                  ExtractTextPlugin.extract( {
-                     fallback: 'style-loader',
-                     use: 'css-loader',
-                     publicPath: ''
-                  } ) :
-                  'style-loader!css-loader?sourceMap'
+                  [ `${MiniCssExtractPlugin.loader}?publicPath=../`, 'css-loader' ] :
+                  [ 'style-loader', 'css-loader?sourceMap' ]
             },
             {
                test: /[/]default[.]theme[/].*[.]s[ac]ss$/,
