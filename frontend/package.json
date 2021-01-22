@@ -40,7 +40,7 @@
     "hal-http-client": "^0.7.0",
     "laxar-loader": "^2.1.0",
     "mini-css-extract-plugin": "^0.4.4",
-    "node-sass": "^4.11.0",
+    "node-sass": "^4.13.1",
     "sass-loader": "^6.0.7",
     "source-map-support": "^0.5.4",
     "style-loader": "^0.23.1",
