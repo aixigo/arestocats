@@ -2,7 +2,7 @@
 
 > Run declarative integration tests against your REST services
 
-_Note that this project, while already useful, is still maturing and being actively developed._
+_Note that this project, while useful, is no longer being actively developed._
 
 ## Features
 

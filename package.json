@@ -11,8 +11,8 @@
   "main": "index.js",
   "bin": "bin/arestocats",
   "scripts": {
-    "start": "node --harmony_object_rest_spread --trace-warnings index",
-    "test": "npm run eslint && mocha --harmony_object_rest_spread --trace-warnings",
+    "start": "node --trace-warnings index",
+    "test": "npm run eslint && mocha --trace-warnings",
     "arestocats": "./bin/arestocats",
     "prepare": "cd frontend && npm install",
     "eslint": "eslint src test scenarios"
