@@ -181,7 +181,7 @@ This is useful during development, where you will probably test an API running o
 
 ## Test Definitions Format
 
-Each scenario and each sub-item will be loaded using NodeJS [require](https://nodejs.org/docs/latest-v8.x/api/modules.html#modules_require).
+Each scenario and each sub-item will be loaded using NodeJS [require](https://nodejs.org/docs/latest-v10.x/api/modules.html#modules_require).
 Each test item should be an object with a `type` property, on which most other properties depend.
 
 Here is a list of all general-purpose properties:

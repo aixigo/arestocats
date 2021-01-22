@@ -1,12 +1,17 @@
 #!/bin/sh
-":" //# comment; exec /usr/bin/env node --harmony_object_rest_spread "$0" "$@"
+":" //# comment; exec /usr/bin/env node "$0" "$@"
 
 // The above is a hack to safely pass command line options to node on linux
 // Details: http://sambal.org/2014/02/passing-options-node-shebang-line/
 
-if( process.version < 'v8' ) {
+const [ major, minor ] = process.version
+   .replace( /v(\d+)[.](\d+)[.].*/, '$1,$2' )
+   .split( ',' )
+   .map( _ => parseInt( _, 10 ) );
+
+if( major < 8 || ( major === 8 && minor <= 3 ) ) {
    // eslint-disable-next-line no-console
-   console.error( 'Error: aRESTocats requires NodeJS v8 or higher! Exiting.' );
+   console.error( 'Error: aRESTocats requires NodeJS v8.3 or higher! Exiting.' );
    process.exit( 1 );
 }
 
